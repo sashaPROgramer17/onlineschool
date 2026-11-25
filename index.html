@@ -1,0 +1,2633 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Академія Рибалки — Онлайн-школа риболовлі</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Montserrat', 'sans-serif'],
+                    },
+                    colors: {
+                        river: {
+                            50: '#F0F9FF',
+                            100: '#E0F2FE',
+                            700: '#1D4ED8',
+                            800: '#0F2942',
+                            900: '#0A1E32',
+                            950: '#05111D',
+                        },
+                        forest: {
+                            600: '#16A34A',
+                            700: '#15803D',
+                            800: '#14532D',
+                        },
+                        sunset: {
+                            400: '#FBBF24',
+                            500: '#F59E0B',
+                            600: '#D97706',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-sunset-500 selection:text-white">
+
+    <!-- НАВІГАЦІЯ (HEADER) -->
+    <header class="sticky top-0 z-40 bg-river-900/95 backdrop-blur-md text-white border-b border-river-800 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16 md:h-20">
+                <!-- Логотип -->
+                <a href="#" class="flex items-center gap-3 group">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-sunset-400 to-sunset-600 flex items-center justify-center text-river-950 shadow-md group-hover:scale-105 transition-transform">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 11c-2.5 0-4.5 2-4.5 4.5S12.5 20 15 20s4.5-2 4.5-4.5" />
+                        </svg>
+                    </div>
+                    <div>
+                        <span class="font-heading font-extrabold text-lg sm:text-xl tracking-tight block leading-none">АКАДЕМІЯ</span>
+                        <span class="text-xs font-semibold text-sunset-400 tracking-widest uppercase">Рибалки</span>
+                    </div>
+                </a>
+
+                <!-- Десктопне меню -->
+                <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-slate-200">
+                    <a href="#lessons" class="hover:text-sunset-400 transition-colors">Онлайн-уроки</a>
+                    <a href="#knots" class="hover:text-sunset-400 transition-colors">Вузли</a>
+                    <a href="#simulator" class="hover:text-sunset-400 transition-colors">Тренажер підсічки</a>
+                    <a href="#checklist" class="hover:text-sunset-400 transition-colors">Чек-лист зборів</a>
+                    <a href="#quiz" class="hover:text-sunset-400 transition-colors">Тест</a>
+                </nav>
+
+                <!-- Бейдж прогресу + Мобільна кнопка меню -->
+                <div class="flex items-center gap-3 sm:gap-4">
+                    <div class="bg-river-800/90 border border-river-700 rounded-full px-3 py-1.5 sm:px-4 sm:py-2 flex items-center gap-2.5 shadow-inner" title="Ваш прогрес навчання">
+                        <div class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></div>
+                        <span class="text-xs sm:text-sm font-semibold text-slate-100">
+                            Прогрес: <span id="header-progress-text" class="text-sunset-400 font-bold">0/8</span>
+                        </span>
+                        <div class="hidden sm:block w-16 h-2 bg-river-950 rounded-full overflow-hidden">
+                            <div id="header-progress-bar" class="h-full bg-gradient-to-r from-emerald-400 to-sunset-400 transition-all duration-500" style="width: 0%"></div>
+                        </div>
+                    </div>
+
+                    <!-- Кнопка мобільного меню -->
+                    <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg text-slate-200 hover:bg-river-800 focus:outline-none" aria-label="Меню">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Мобільне випадаюче меню -->
+        <div id="mobile-menu" class="hidden md:hidden bg-river-900 border-t border-river-800 px-4 pt-3 pb-5 space-y-2">
+            <a href="#lessons" class="block px-3 py-2.5 rounded-lg text-base font-medium text-slate-200 hover:bg-river-800 hover:text-sunset-400">Онлайн-уроки</a>
+            <a href="#knots" class="block px-3 py-2.5 rounded-lg text-base font-medium text-slate-200 hover:bg-river-800 hover:text-sunset-400">Вузли та оснастки</a>
+            <a href="#simulator" class="block px-3 py-2.5 rounded-lg text-base font-medium text-slate-200 hover:bg-river-800 hover:text-sunset-400">Тренажер підсічки</a>
+            <a href="#checklist" class="block px-3 py-2.5 rounded-lg text-base font-medium text-slate-200 hover:bg-river-800 hover:text-sunset-400">Чек-лист зборів</a>
+            <a href="#quiz" class="block px-3 py-2.5 rounded-lg text-base font-medium text-slate-200 hover:bg-river-800 hover:text-sunset-400">Перевірка знань</a>
+        </div>
+    </header>
+
+    <!-- HERO СЕКЦІЯ -->
+    <section class="relative overflow-hidden bg-gradient-to-br from-river-950 via-river-900 to-forest-800 text-white py-16 sm:py-24 lg:py-28">
+        <!-- Декоративні хвилі та градієнтні плями -->
+        <div class="absolute inset-0 opacity-20 pointer-events-none">
+            <div class="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-sunset-500 blur-3xl"></div>
+            <div class="absolute bottom-0 left-10 w-80 h-80 rounded-full bg-emerald-500 blur-3xl"></div>
+        </div>
+
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <!-- Ліва колонка: текст -->
+                <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/15 text-sunset-400 text-xs sm:text-sm font-semibold backdrop-blur-sm">
+                        <span>🎣 Перша інтерактивна платформа в Україні</span>
+                    </div>
+                    <h1 class="font-heading font-extrabold text-3xl sm:text-5xl lg:text-6xl tracking-tight leading-tight">
+                        Опануй мистецтво <span class="text-transparent bg-clip-text bg-gradient-to-r from-sunset-400 to-amber-200">трофейної риболовлі</span> онлайн
+                    </h1>
+                    <p class="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+                        Від вибору першого спінінга до читання рельєфу дна ехолотом та в'язання надійних вузлів. Інтерактивні відеоуроки зі звуком, голосовою озвучкою інструктора, схеми оснасток і тести.
+                    </p>
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
+                        <a href="#lessons" class="w-full sm:w-auto px-7 py-3.5 rounded-2xl bg-sunset-500 hover:bg-sunset-400 text-river-950 font-heading font-bold text-sm sm:text-base shadow-lg shadow-sunset-500/25 transition-all transform hover:-translate-y-0.5 text-center">
+                            Розпочати навчання →
+                        </a>
+                        <a href="#knots" class="w-full sm:w-auto px-7 py-3.5 rounded-2xl bg-white/10 hover:bg-white/15 border border-white/20 text-white font-semibold text-sm sm:text-base backdrop-blur-sm transition-all text-center">
+                            Схеми вузлів та оснасток
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Права колонка: картка-прев'ю -->
+                <div class="lg:col-span-5">
+                    <div class="bg-river-800/70 border border-river-700/80 backdrop-blur-md rounded-3xl p-6 sm:p-8 shadow-2xl space-y-5">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold uppercase tracking-wider text-sunset-400">Ваш кабінет рибалки</span>
+                            <span id="hero-percent" class="text-xs font-semibold px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">0% завершено</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="bg-river-950/60 p-4 rounded-2xl border border-river-800">
+                                <div class="text-2xl sm:text-3xl font-heading font-extrabold text-white">8</div>
+                                <div class="text-xs text-slate-400 mt-1">Відеоуроків зі звуком</div>
+                            </div>
+                            <div class="bg-river-950/60 p-4 rounded-2xl border border-river-800">
+                                <div class="text-2xl sm:text-3xl font-heading font-extrabold text-sunset-400">3</div>
+                                <div class="text-xs text-slate-400 mt-1">Покрокові вузли</div>
+                            </div>
+                        </div>
+                        <div class="p-4 rounded-2xl bg-gradient-to-r from-forest-800 to-river-900 border border-forest-600/40 flex items-center gap-4">
+                            <div class="w-11 h-11 rounded-xl bg-sunset-500/20 text-sunset-400 flex items-center justify-center shrink-0 text-xl">
+                                🔊
+                            </div>
+                            <div>
+                                <div class="text-sm font-bold text-white">Озвучка та звуки водойми</div>
+                                <div class="text-xs text-slate-300">Кожен урок має голос інструктора, субтитри та живі звуки снастей.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- КАТАЛОГ ОНЛАЙН-УРОКІВ (СЕКЦІЯ 1) -->
+    <section id="lessons" class="py-16 sm:py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+            <div>
+                <span class="text-xs font-bold uppercase tracking-widest text-forest-700">Навчальна програма</span>
+                <h2 class="font-heading font-extrabold text-2xl sm:text-4xl text-river-900 mt-1">Каталог онлайн-уроків</h2>
+            </div>
+
+            <!-- Фільтр за рівнем складності -->
+            <div class="flex items-center gap-3">
+                <label for="difficulty-filter" class="text-sm font-medium text-slate-600">Рівень:</label>
+                <select id="difficulty-filter" class="bg-white border border-slate-300 text-slate-800 text-sm font-medium rounded-xl px-4 py-2.5 shadow-sm focus:outline-none focus:ring-2 focus:ring-river-700">
+                    <option value="all">Усі рівні</option>
+                    <option value="Початківець">🟢 Початківець</option>
+                    <option value="Середній">🟡 Середній</option>
+                    <option value="Профі">🔴 Профі</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Вкладки категорій -->
+        <div id="category-tabs" class="flex flex-wrap gap-2 sm:gap-3 mb-8">
+            <button data-category="all" class="cat-btn active px-4 py-2.5 rounded-xl text-sm font-semibold transition-all bg-river-900 text-white shadow-md">Усі напрямки</button>
+            <button data-category="Спінінг" class="cat-btn px-4 py-2.5 rounded-xl text-sm font-semibold transition-all bg-white text-slate-700 hover:bg-river-100 border border-slate-200">🎣 Спінінг</button>
+            <button data-category="Фідер" class="cat-btn px-4 py-2.5 rounded-xl text-sm font-semibold transition-all bg-white text-slate-700 hover:bg-river-100 border border-slate-200">🪱 Фідер</button>
+            <button data-category="Поплавок" class="cat-btn px-4 py-2.5 rounded-xl text-sm font-semibold transition-all bg-white text-slate-700 hover:bg-river-100 border border-slate-200">📍 Поплавок</button>
+            <button data-category="Зимова рибалка" class="cat-btn px-4 py-2.5 rounded-xl text-sm font-semibold transition-all bg-white text-slate-700 hover:bg-river-100 border border-slate-200">❄️ Зимова рибалка</button>
+            <button data-category="В'язання вузлів" class="cat-btn px-4 py-2.5 rounded-xl text-sm font-semibold transition-all bg-white text-slate-700 hover:bg-river-100 border border-slate-200">🪢 В'язання вузлів</button>
+        </div>
+
+        <!-- Сітка карток уроків -->
+        <div id="lessons-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <!-- Картки генеруються через JS -->
+        </div>
+    </section>
+
+    <!-- ІНТЕРАКТИВНИЙ ДОВІДНИК ВУЗЛІВ ТА ОСНАСТОК (СЕКЦІЯ 2) -->
+    <section id="knots" class="py-16 sm:py-20 bg-river-900 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <span class="text-xs font-bold uppercase tracking-widest text-sunset-400">Практикум</span>
+                <h2 class="font-heading font-extrabold text-2xl sm:text-4xl mt-1">Візуальний довідник вузлів та оснасток</h2>
+                <p class="text-slate-300 text-sm sm:text-base mt-3">Оберіть вузол або монтаж і перемикайте кроки, щоб вивчити правильну послідовність в'язання.</p>
+            </div>
+
+            <!-- Вибір вузла -->
+            <div id="knot-selector" class="flex flex-wrap justify-center gap-3 mb-8">
+                <!-- Кнопки вузлів генеруються через JS -->
+            </div>
+
+            <!-- Картка покрокового розбору -->
+            <div class="bg-river-800/80 border border-river-700 rounded-3xl p-6 sm:p-10 shadow-2xl max-w-4xl mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+                    <!-- Візуальна SVG схема -->
+                    <div class="md:col-span-6 bg-river-950 rounded-2xl p-6 border border-river-700/70 flex flex-col items-center justify-center min-h-[240px]">
+                        <div id="knot-svg-container" class="w-full max-w-[260px] h-44 flex items-center justify-center">
+                            <!-- SVG оновлюється динамічно -->
+                        </div>
+                        <span id="knot-strength-badge" class="mt-4 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-semibold">
+                            Міцність на розрив: 95%
+                        </span>
+                    </div>
+
+                    <!-- Текстовий опис кроку -->
+                    <div class="md:col-span-6 space-y-5">
+                        <div>
+                            <div class="flex items-center justify-between text-xs font-bold text-sunset-400 uppercase tracking-wider mb-1">
+                                <span id="knot-step-counter">Крок 1 з 3</span>
+                                <span id="knot-purpose-tag">Для шнура та флюорокарбону</span>
+                            </div>
+                            <h3 id="knot-title" class="font-heading font-extrabold text-2xl text-white">Вузол Паломар</h3>
+                        </div>
+
+                        <p id="knot-step-text" class="text-slate-200 text-sm sm:text-base leading-relaxed min-h-[84px]">
+                            Опис кроку...
+                        </p>
+
+                        <!-- Індикатор прогресу кроків -->
+                        <div id="knot-dots" class="flex items-center gap-2"></div>
+
+                        <!-- Кнопки навігації кроків -->
+                        <div class="flex items-center gap-3 pt-2">
+                            <button id="knot-prev-step" class="px-5 py-2.5 rounded-xl bg-river-700 hover:bg-river-600 text-white text-sm font-semibold transition disabled:opacity-40 disabled:cursor-not-allowed">
+                                ← Назад
+                            </button>
+                            <button id="knot-next-step" class="px-5 py-2.5 rounded-xl bg-sunset-500 hover:bg-sunset-400 text-river-950 text-sm font-bold transition shadow-md">
+                                Наступний крок →
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ІНТЕРАКТИВНИЙ ТРЕНАЖЕР ПІДСІЧКИ ТА ВИВАЖУВАННЯ -->
+    <section id="simulator" class="py-16 sm:py-20 bg-slate-100 border-y border-slate-200">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-10">
+                <span class="text-xs font-bold uppercase tracking-widest text-sunset-600">Практичний симулятор</span>
+                <h2 class="font-heading font-extrabold text-2xl sm:text-4xl text-river-900 mt-1">Тренажер підсічки та виважування</h2>
+                <p class="text-slate-600 text-sm sm:text-base mt-2">Стежте за поплавком! Коли він клюне — миттєво підсікайте, а далі підмотуйте рибу, утримуючи натяг у зеленій зоні.</p>
+            </div>
+
+            <div class="bg-river-900 text-white rounded-3xl p-6 sm:p-8 shadow-2xl border border-river-700 space-y-6">
+                <div class="flex flex-wrap items-center justify-between gap-3">
+                    <div class="flex items-center gap-3">
+                        <span class="px-3 py-1 rounded-full bg-river-800 border border-river-700 text-xs font-semibold text-sunset-400">
+                            🏆 Спіймано трофеїв: <strong id="sim-caught-count" class="text-white">0</strong>
+                        </span>
+                        <span id="sim-status-badge" class="px-3 py-1 rounded-full bg-sky-500/20 text-sky-300 text-xs font-semibold">
+                            Очікування закидання
+                        </span>
+                    </div>
+                    <span id="sim-fish-name" class="text-xs text-slate-300 font-medium"></span>
+                </div>
+
+                <!-- Візуальне поле водойми тренажера -->
+                <div class="relative h-48 sm:h-56 rounded-2xl bg-gradient-to-b from-sky-900 via-river-800 to-river-950 border border-river-700 overflow-hidden flex flex-col justify-between p-4">
+                    <div class="flex justify-between text-xs text-slate-300">
+                        <span>Дистанція до берега: <strong id="sim-distance-text" class="text-white">25 м</strong></span>
+                        <span id="sim-reaction-text" class="text-sunset-400 font-mono"></span>
+                    </div>
+
+                    <!-- Поплавок / Індикатор клювання -->
+                    <div class="relative flex-1 flex items-center justify-center">
+                        <div id="sim-ripple" class="absolute w-16 h-6 rounded-full border-2 border-white/20 transition-transform duration-300"></div>
+                        <div id="sim-float" class="relative z-10 flex flex-col items-center transition-transform duration-150">
+                            <div class="w-1.5 h-8 bg-red-500 rounded-t-full shadow"></div>
+                            <div class="w-4 h-7 bg-white rounded-full shadow-md border-b-4 border-slate-300"></div>
+                        </div>
+                    </div>
+
+                    <!-- Шкала натягу волосіні -->
+                    <div class="space-y-1.5">
+                        <div class="flex justify-between text-[11px] font-semibold">
+                            <span class="text-slate-300">Натяг жилки (тримайте в зеленій зоні!)</span>
+                            <span id="sim-tension-label" class="text-emerald-400">0%</span>
+                        </div>
+                        <div class="w-full h-3 bg-river-950 rounded-full overflow-hidden p-0.5 border border-river-700 relative">
+                            <div class="absolute inset-y-0 left-[25%] right-[25%] bg-emerald-500/20 pointer-events-none"></div>
+                            <div class="absolute inset-y-0 right-0 w-[20%] bg-rose-500/30 pointer-events-none"></div>
+                            <div id="sim-tension-bar" class="h-full bg-emerald-400 rounded-full transition-all duration-75" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Кнопки дії тренажера -->
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <button id="sim-action-btn" type="button" class="w-full sm:w-auto px-8 py-4 rounded-2xl bg-sunset-500 hover:bg-sunset-400 active:scale-95 text-river-950 font-heading font-extrabold text-base shadow-lg shadow-sunset-500/25 transition select-none">
+                        🎣 Закинути снасть
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ІНТЕРАКТИВНИЙ ЧЕК-ЛИСТ ЗБОРІВ НА РИБОЛОВЛЮ -->
+    <section id="checklist" class="py-16 sm:py-20 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-10">
+            <span class="text-xs font-bold uppercase tracking-widest text-forest-700">Підготовка до виїзду</span>
+            <h2 class="font-heading font-extrabold text-2xl sm:text-4xl text-river-900 mt-1">Чек-лист зборів на риболовлю</h2>
+            <p class="text-slate-600 text-sm sm:text-base mt-2">Оберіть тип риболовлі та відмічайте речі, які вже поклали у рюкзак.</p>
+        </div>
+
+        <div class="bg-white rounded-3xl border border-slate-200 shadow-xl p-6 sm:p-8 space-y-6">
+            <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-100 pb-5">
+                <div id="checklist-tabs" class="flex flex-wrap gap-2">
+                    <button type="button" data-gear="spinning" class="gear-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-river-900 text-white transition">🎣 Спінінг</button>
+                    <button type="button" data-gear="feeder" class="gear-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-slate-100 text-slate-700 hover:bg-river-100 transition">🪱 Фідер</button>
+                    <button type="button" data-gear="float" class="gear-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-slate-100 text-slate-700 hover:bg-river-100 transition">📍 Поплавок</button>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <span id="checklist-counter" class="text-xs sm:text-sm font-bold text-forest-700 bg-emerald-50 px-3 py-1.5 rounded-xl border border-emerald-200">
+                        Зібрано: 0/6
+                    </span>
+                    <button id="checklist-reset-btn" type="button" class="text-xs text-slate-500 hover:text-rose-600 font-semibold underline">
+                        Скинути
+                    </button>
+                </div>
+            </div>
+
+            <div id="checklist-items" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <!-- Список генерується через JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ІНТЕРАКТИВНИЙ ТЕСТ «ПЕРЕВІР СВОЇ ЗНАННЯ» (СЕКЦІЯ 4) -->
+    <section id="quiz" class="py-16 sm:py-20 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-10">
+            <span class="text-xs font-bold uppercase tracking-widest text-forest-700">Екзамен рибалки</span>
+            <h2 class="font-heading font-extrabold text-2xl sm:text-4xl text-river-900 mt-1">Перевір свої знання</h2>
+            <p class="text-slate-600 text-sm sm:text-base mt-2">Пройдіть короткий тест із 5 запитань на знання тактики лову та правил рибальства.</p>
+        </div>
+
+        <div id="quiz-container" class="bg-white rounded-3xl border border-slate-200 shadow-xl p-6 sm:p-10">
+            <div id="quiz-body">
+                <div class="flex items-center justify-between text-xs font-bold text-slate-500 uppercase tracking-wider mb-4">
+                    <span id="quiz-question-num">Питання 1 з 5</span>
+                    <span id="quiz-score-live" class="text-forest-700">Бали: 0</span>
+                </div>
+                <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden mb-6">
+                    <div id="quiz-progress-bar" class="h-full bg-river-800 transition-all duration-300" style="width: 20%"></div>
+                </div>
+
+                <h3 id="quiz-question-text" class="font-heading font-bold text-lg sm:text-2xl text-river-900 mb-6">
+                    Запитання...
+                </h3>
+
+                <div id="quiz-options" class="space-y-3">
+                    <!-- Варіанти відповідей -->
+                </div>
+
+                <!-- Блок пояснення після вибору -->
+                <div id="quiz-feedback" class="hidden mt-6 p-4 rounded-2xl border text-sm leading-relaxed"></div>
+
+                <div class="mt-6 flex justify-end">
+                    <button id="quiz-next-btn" class="hidden px-6 py-3 rounded-xl bg-river-900 hover:bg-river-800 text-white font-bold text-sm transition shadow-md">
+                        Наступне питання →
+                    </button>
+                </div>
+            </div>
+
+            <!-- Екран результату тесту -->
+            <div id="quiz-result" class="hidden text-center py-6 space-y-5">
+                <div id="quiz-result-icon" class="w-20 h-20 rounded-full bg-sunset-500/20 text-sunset-600 flex items-center justify-center mx-auto text-4xl">
+                    🏆
+                </div>
+                <h3 id="quiz-result-title" class="font-heading font-extrabold text-2xl sm:text-3xl text-river-900">Чудовий результат!</h3>
+                <p id="quiz-result-subtitle" class="text-slate-600 max-w-md mx-auto text-sm sm:text-base"></p>
+                <button id="quiz-restart-btn" class="px-7 py-3.5 rounded-2xl bg-sunset-500 hover:bg-sunset-400 text-river-950 font-heading font-bold text-sm transition shadow-md">
+                    Пройти тест ще раз
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ФУТЕР -->
+    <footer class="bg-river-950 text-slate-400 py-10 border-t border-river-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs sm:text-sm">
+            <div class="flex items-center gap-2 text-white font-heading font-bold">
+                <span>🎣 АКАДЕМІЯ РИБАЛКИ</span>
+            </div>
+            <p class="text-center">Дотримуйтесь правил любительського рибальства та принципу «Зловив — відпусти»!</p>
+            <p>© 2026 Усі права захищено</p>
+        </div>
+    </footer>
+
+    <!-- МОДАЛЬНЕ ВІКНО ВІДЕОУРОКУ (СЕКЦІЯ 3 — ПОВНОЦІННЕ ВІДЕО ЗІ ЗВУКОМ) -->
+    <div id="lesson-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-2 sm:p-5 bg-river-950/85 backdrop-blur-md overflow-y-auto">
+        <div id="modal-dialog-box" class="bg-white rounded-3xl max-w-4xl w-full shadow-2xl overflow-hidden border border-slate-200 my-auto">
+            <!-- Шапка модального вікна -->
+            <div class="bg-river-900 text-white px-4 sm:px-6 py-3.5 flex flex-wrap items-center justify-between gap-2">
+                <div class="flex items-center gap-2.5">
+                    <span id="modal-category-badge" class="px-2.5 py-1 rounded-lg bg-sunset-500/20 text-sunset-400 text-xs font-bold">Спінінг</span>
+                    <span id="modal-duration" class="text-xs text-slate-300 font-mono">⏱ 02:00</span>
+                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-semibold">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                        HD Відео + Звук
+                    </span>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <!-- Перемикач режиму: Інтерактивний урок / Своє відео -->
+                    <div class="flex bg-river-950 p-1 rounded-xl border border-river-700 text-xs font-semibold">
+                        <button id="mode-interactive-btn" class="px-2.5 py-1 rounded-lg bg-sunset-500 text-river-950 transition">Урок Академії</button>
+                        <label for="custom-video-input" class="px-2.5 py-1 rounded-lg text-slate-300 hover:text-white cursor-pointer transition flex items-center gap-1" title="Відкрити локальний відеофайл зі звуком">
+                            <span>📁 Своє відео</span>
+                            <input type="file" id="custom-video-input" accept="video/mp4,video/webm,video/ogg,video/*" class="hidden">
+                        </label>
+                    </div>
+
+                    <button id="close-modal-btn" class="p-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-river-800 transition" aria-label="Закрити">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- КОНТЕЙНЕР ВІДЕОПЛЕЄРА (ПІДТРИМУЄ FULLSCREEN) -->
+            <div id="video-player-wrapper" class="relative bg-river-950 aspect-video w-full overflow-hidden select-none group">
+                <!-- Canvas для інтерактивного навчального відео -->
+                <canvas id="lesson-canvas" class="w-full h-full block"></canvas>
+
+                <!-- HTML5 <video> для власних відеофайлів користувача -->
+                <video id="custom-html5-video" class="hidden w-full h-full object-contain bg-black" playsinline></video>
+
+                <!-- Еквалайзер звуку та індикатор диктора у верхньому куті відео -->
+                <div id="audio-hud" class="absolute top-3 left-3 right-3 flex items-center justify-between pointer-events-none z-20">
+                    <div class="flex items-center gap-2 bg-river-950/75 backdrop-blur-md border border-white/15 px-3 py-1.5 rounded-full text-xs text-white">
+                        <div id="sound-wave-bars" class="flex items-end gap-0.5 h-3.5 w-5">
+                            <span class="w-1 bg-sunset-400 rounded-full transition-all duration-100 h-1.5"></span>
+                            <span class="w-1 bg-emerald-400 rounded-full transition-all duration-100 h-3"></span>
+                            <span class="w-1 bg-sunset-400 rounded-full transition-all duration-100 h-2"></span>
+                            <span class="w-1 bg-sky-400 rounded-full transition-all duration-100 h-1"></span>
+                        </div>
+                        <span id="audio-status-label" class="font-medium text-slate-200">Звук та озвучка готові</span>
+                    </div>
+
+                    <div id="scene-badge" class="hidden sm:flex items-center gap-1.5 bg-river-900/80 backdrop-blur-md border border-white/15 px-3 py-1.5 rounded-full text-xs font-semibold text-sunset-300">
+                        <span>🎬 Сцена 1: Вступ</span>
+                    </div>
+                </div>
+
+                <!-- Велика центральна кнопка Play (коли відео на паузі) -->
+                <button id="center-play-overlay" class="absolute inset-0 z-10 flex flex-col items-center justify-center bg-river-950/35 hover:bg-river-950/20 transition cursor-pointer">
+                    <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-sunset-500 hover:bg-sunset-400 text-river-950 flex items-center justify-center shadow-2xl shadow-sunset-500/50 transition-transform transform hover:scale-110">
+                        <svg class="w-9 h-9 ml-1" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M8 5v14l11-7z" />
+                        </svg>
+                    </div>
+                    <span class="mt-3 px-4 py-1.5 rounded-full bg-river-950/80 text-white text-xs sm:text-sm font-semibold border border-white/15 backdrop-blur-sm">
+                        ▶ Дивитись відео зі звуком та озвучкою
+                    </span>
+                </button>
+
+                <!-- Синхронні субтитри (CC) поверх відео -->
+                <div id="video-subtitles-box" class="absolute bottom-16 sm:bottom-20 inset-x-4 sm:inset-x-12 z-20 text-center pointer-events-none transition-opacity duration-200">
+                    <span id="video-subtitle-text" class="inline-block bg-river-950/85 text-white text-xs sm:text-sm md:text-base font-medium px-4 py-2 rounded-xl border border-white/15 shadow-lg backdrop-blur-sm leading-snug">
+                        Натисніть Play, щоб розпочати урок зі звуком...
+                    </span>
+                </div>
+
+                <!-- НИЖНЯ ПАНЕЛЬ КЕРУВАННЯ ВІДЕО ТА ЗВУКОМ -->
+                <div class="absolute bottom-0 inset-x-0 z-30 bg-gradient-to-t from-black/95 via-black/80 to-transparent pt-6 pb-2.5 px-3 sm:px-4">
+                    <!-- Інтерактивний таймлайн (Scrubbing) -->
+                    <div class="mb-2 flex items-center gap-2.5">
+                        <span id="player-time-current" class="text-[11px] sm:text-xs font-mono text-slate-200 w-10 text-right">00:00</span>
+                        <div id="player-timeline" class="relative flex-1 h-2 bg-white/25 hover:h-2.5 rounded-full cursor-pointer transition-all group/bar">
+                            <div id="player-progress-fill" class="h-full bg-gradient-to-r from-sunset-400 to-sunset-500 rounded-full relative" style="width: 0%">
+                                <span class="absolute right-0 top-1/2 -translate-y-1/2 w-3.5 h-3.5 rounded-full bg-white shadow border-2 border-sunset-500 scale-90 group-hover/bar:scale-110 transition-transform"></span>
+                            </div>
+                            <!-- Маркери таймкодів на шкалі -->
+                            <div id="timeline-markers" class="absolute inset-0 pointer-events-none"></div>
+                        </div>
+                        <span id="player-time-total" class="text-[11px] sm:text-xs font-mono text-slate-300 w-10">02:00</span>
+                    </div>
+
+                    <!-- Кнопки керування -->
+                    <div class="flex flex-wrap items-center justify-between gap-2 text-white">
+                        <!-- Ліва група: Play/Pause, Гучність, Mute -->
+                        <div class="flex items-center gap-2 sm:gap-3">
+                            <button id="ctrl-play-btn" class="p-1.5 rounded-lg bg-sunset-500 hover:bg-sunset-400 text-river-950 transition" title="Відтворити / Пауза">
+                                <svg id="ctrl-play-icon" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z" />
+                                </svg>
+                            </button>
+
+                            <!-- Кнопка Mute / Unmute + загальний повзунок гучності -->
+                            <div class="flex items-center gap-1.5 bg-white/10 px-2.5 py-1 rounded-xl">
+                                <button id="ctrl-mute-btn" class="text-slate-200 hover:text-sunset-400 transition" title="Увімкнути / Вимкнути звук">
+                                    <svg id="ctrl-volume-icon" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                                    </svg>
+            // 4. СЦЕНА: ПОПЛАВОК (Людина на березі рибалить однією вудкою, поплавок, підсічка та виважування)
+            else if (lesson.sceneType === 'float') {
+                const sky = ctx.createLinearGradient(0, 0, 0, h * 0.44);
+                sky.addColorStop(0, '#0F172A');
+                sky.addColorStop(0.6, '#1E3A5F');
+                sky.addColorStop(1, '#F59E0B');
+                ctx.fillStyle = sky;
+                ctx.fillRect(0, 0, w, h * 0.44);
+
+                // Ранкове сонце
+                ctx.fillStyle = '#FDE047';
+                ctx.beginPath();
+                ctx.arc(w * 0.78, h * 0.35, 24 * dpr, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Водойма
+                const water = ctx.createLinearGradient(0, h * 0.44, 0, h);
+                water.addColorStop(0, '#0369A1');
+                water.addColorStop(1, '#082F49');
+                ctx.fillStyle = water;
+                ctx.fillRect(0, h * 0.44, w, h * 0.56);
+
+                // Дно водойми
+                ctx.fillStyle = '#0F293A';
+                ctx.beginPath();
+                ctx.moveTo(w * 0.22, h);
+                ctx.quadraticCurveTo(w * 0.55, h * 0.85, w, h * 0.88);
+                ctx.lineTo(w, h);
+                ctx.closePath();
+                ctx.fill();
+
+                // Зелений берег зліва, на якому сидить рибалка
+                ctx.fillStyle = '#14532D';
+                ctx.beginPath();
+                ctx.moveTo(0, h * 0.36);
+                ctx.quadraticCurveTo(w * 0.22, h * 0.36, w * 0.28, h * 0.48);
+                ctx.lineTo(w * 0.32, h);
+                ctx.lineTo(0, h);
+                ctx.closePath();
+                ctx.fill();
+
+                // Трава на березі
+                ctx.strokeStyle = '#22C55E';
+                ctx.lineWidth = 2.5 * dpr;
+                for (let i = 0; i < 6; i++) {
+                    const gx = w * (0.04 + i * 0.035);
+                    ctx.beginPath();
+                    ctx.moveTo(gx, h * 0.37);
+                    ctx.lineTo(gx - 3 * dpr, h * 0.33);
+                    ctx.stroke();
+                }
+
+                // Стан клювання та підсічки (після 65% відео)
+                const isLiftBite = progress > 0.65;
+                const isReeling = progress > 0.78;
+                const rodLift = isReeling ? -28 * dpr : (isLiftBite ? -10 * dpr : Math.sin(timeSec * 2) * (1.5 * dpr));
+
+                // Фігура людини (рибалки) на березі
+                const fisherX = w * 0.16;
+                const fisherY = h * 0.36;
+
+                // Ноги та сидіння
+                ctx.strokeStyle = '#1E293B';
+                ctx.lineWidth = 5 * dpr;
+                ctx.lineCap = 'round';
+                ctx.beginPath();
+                ctx.moveTo(fisherX, fisherY - 8 * dpr);
+                ctx.lineTo(fisherX + 12 * dpr, fisherY - 4 * dpr);
+                ctx.lineTo(fisherX + 15 * dpr, fisherY + 8 * dpr);
+                ctx.stroke();
+
+                // Тулуб у рибальській куртці
+                ctx.strokeStyle = '#EA580C';
+                ctx.lineWidth = 7 * dpr;
+                ctx.beginPath();
+                ctx.moveTo(fisherX - 2 * dpr, fisherY - 8 * dpr);
+                ctx.lineTo(fisherX + 2 * dpr, fisherY - 24 * dpr);
+                ctx.stroke();
+
+                // Голова та панама рибалки
+            <!-- Кнопка завершення уроку -->
+            <div class="p-4 sm:p-6 bg-slate-50 border-t border-slate-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div class="space-y-2 max-w-2xl">
+                    <h3 id="modal-lesson-title" class="font-heading font-extrabold text-lg sm:text-2xl text-river-900">Назва уроку</h3>
+                    <p id="modal-lesson-desc" class="text-xs sm:text-sm text-slate-600 leading-relaxed">Опис уроку...</p>
+                    <div class="pt-2">
+                        <span class="text-xs font-bold uppercase tracking-wider text-forest-700 block mb-1.5">📌 Конспект та поради інструктора:</span>
+                        <ul id="modal-lesson-notes" class="list-disc list-inside text-xs sm:text-sm text-slate-700 space-y-1"></ul>
+                    </div>
+                    <div class="pt-2">
+                        <span class="text-xs font-bold uppercase tracking-wider text-river-700 block mb-1.5">⏱ Перехід по епізодах:</span>
+                        <div id="modal-timecodes-list" class="flex flex-wrap gap-2"></div>
+                    </div>
+                </div>
+
+                <button id="toggle-complete-btn" type="button" class="w-full sm:w-auto px-6 py-3 rounded-xl font-bold text-sm transition flex items-center justify-center gap-2 shadow-md bg-sunset-500 hover:bg-sunset-400 text-river-950 shrink-0">
+                    Позначити урок як вивчений ✓
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // 1. БАЗА ОНЛАЙН-УРОКІВ
+        // ==========================================
+        const lessonsData = [
+            {
+                id: 1,
+                title: "Класичний джиг: читання рельєфу та ступінчаста проводка",
+                category: "Спінінг",
+                difficulty: "Початківець",
+                durationSec: 48,
+                durationText: "00:48",
+                instructor: "Олександр Ковальчук",
+                sceneType: "jig",
+                description: "Розбираємо пошук руслових брівок, підбір ваги джиг-головки під течію та правильну паузу 2–3 секунди для клювання судака й окуня.",
+                notes: [
+                    "Базова проводка «два оберти — пауза»: після торкання дна робіть 2 швидких оберти котушки і чекайте падіння приманки 2–3 секунди.",
+                    "Якщо приманка падає довше 4 секунд — збільшіть вагу грузила на 2–4 грами.",
+                    "Завжди тримайте шнур натягнутим під кутом 45° до води, щоб бачити клювання по вершинці спінінга."
+                ],
+                chapters: [
+                    {
+                        time: 0,
+                        label: "00:00 Пошук руслової брівки",
+                        subtitle: "Стаємо на човні вище перепаду глибини та робимо закидання на мілину.",
+                        voiceText: "Стаємо на човні вище перепаду глибини та робимо закидання на мілину.",
+                        voiceTextEn: "Position the boat above the drop-off and cast toward the shallow flat.",
+                        sfx: "cast"
+                    },
+                    {
+                        time: 12,
+                        label: "00:12 Фаза падіння приманки",
+                        subtitle: "Приманка спускається сходинками по схилу — контролюємо торкання дна по вершинці.",
+                        voiceText: "Приманка спускається сходинками по схилу — контролюємо торкання дна.",
+                        voiceTextEn: "The lure hops down the slope — watch the rod tip for bottom contact.",
+                        sfx: "splash"
+                    },
+                    {
+                        time: 24,
+                        label: "00:24 Два оберти — пауза",
+                        subtitle: "Робимо два чітких оберти котушкою і тримаємо паузу дві-три секунди.",
+                        voiceText: "Робимо два чітких оберти котушкою і тримаємо паузу дві-три секунди.",
+                        voiceTextEn: "Make two crisp reel turns and pause for two to three seconds.",
+                        sfx: "cast"
+                    },
+                    {
+                        time: 36,
+                        label: "00:36 Удар судака на паузі!",
+                        subtitle: "Чіткий «тук» у руку на падінні! Робимо впевнену підсічку та виводимо трофей.",
+                        voiceText: "Чіткий удар у руку на падінні! Робимо впевнену підсічку!",
+                        voiceTextEn: "Sharp tap on the fall! Set the hook firmly and bring in the zander!",
+                        sfx: "drag"
+                    }
+                ]
+            },
+            {
+                id: 2,
+                title: "Твічинг воблерів мінноу на мілководді",
+                category: "Спінінг",
+                difficulty: "Середній",
+                durationSec: 45,
+                durationText: "00:45",
+                instructor: "Олександр Ковальчук",
+                sceneType: "twitch",
+                description: "Техніка ривкової анімації суспендерів (SP) по пасивній осінній та весняній щуці над підводною рослинністю.",
+                notes: [
+                    "Після кожного ривка обов'язково віддавайте шнур назад, щоб воблер розвернувся на 90–180 градусів.",
+                    "По осінній холодній воді збільшуйте паузи між ривками до 4–6 секунд.",
+                    "Використовуйте жорсткий титановий або флюорокарбоновий повідець 0.50 мм для захисту від щучих зубів."
+                ],
+                chapters: [
+                    {
+                        time: 0,
+                        label: "00:00 Воблер-суспендер",
+                        subtitle: "Над водоростями ставимо воблер мінноу з нейтральною плавучістю (SP).",
+                        voiceText: "Над водоростями ставимо воблер мінноу з нейтральною плавучістю.",
+                        voiceTextEn: "Above the weeds we rig a suspending minnow lure.",
+                        sfx: "cast"
+                    },
+                    {
+                        time: 15,
+                        label: "00:15 Ривки та віддача шнура",
+                        subtitle: "Два коротких ривки вниз і відразу віддаємо шнур, щоб воблер розвернувся боком.",
+                        voiceText: "Два коротких ривки вниз і відразу віддаємо шнур, щоб воблер розвернувся боком.",
+                        voiceTextEn: "Two short downward twitches and give slack so the lure darts sideways.",
+                        sfx: "splash"
+                    },
+                    {
+                        time: 30,
+                        label: "00:30 Атака щуки із засідки",
+                        subtitle: "Щука вилітає з трави саме на паузі! Підсікаємо і не пускаємо в латаття.",
+                        voiceText: "Щука вилітає з трави саме на паузі! Підсікаємо!",
+                        voiceTextEn: "The pike darts out of the weeds on the pause! Set the hook!",
+                        sfx: "bite"
+                    }
+                ]
+            },
+            {
+                id: 3,
+                title: "Фідер для новачків: закорм точки та кліпсування",
+                category: "Фідер",
+                difficulty: "Початківець",
+                durationSec: 52,
+                durationText: "00:52",
+                instructor: "Тарас Мельник",
+                sceneType: "feeder",
+                description: "Як зафіксувати дистанцію закидання на шпулі, точно покласти 5 стартових годівниць та дочекатися підходу ляща.",
+                notes: [
+                    "Після падіння годівниці на дно порахуйте секунди — це допоможе визначити глибину в точці.",
+                    "Закліпсуйте дистанцію гумкою або кліпсою шпулі, щоб усі закидання лягали в коло діаметром 1 метр.",
+                    "Після закидання ставте вудилище під кутом до берега та злегка зведіть квівертип."
+                ],
+                chapters: [
+                    {
+                        time: 0,
+                        label: "00:00 Кліпсування дистанції",
+                        subtitle: "Знайшли межу мулу та ракушки — фіксуємо шнур у кліпсі шпулі.",
+                        voiceText: "Знайшли межу мулу та ракушки — фіксуємо шнур у кліпсі шпулі.",
+                        voiceTextEn: "Found the shell bed edge — lock the line in the spool clip.",
+                        sfx: "cast"
+                    },
+                    {
+                        time: 13,
+                        label: "00:13 Стартовий закорм",
+                        subtitle: "Кладемо 5 великих годівниць в одну точку, створюючи кормову пляму на дні.",
+                        voiceText: "Кладемо п'ять великих годівниць в одну точку, створюючи кормову пляму.",
+                        voiceTextEn: "Cast five large feeders into one spot to build a bait carpet.",
+                        sfx: "splash"
+                    },
+                    {
+                        time: 26,
+                        label: "00:26 Робота повідець-насадка",
+                        subtitle: "Ставимо повідець 60 см із бутербродом опариша та мотиля, зводимо квівертип.",
+                        voiceText: "Ставимо повідець шістдесят сантиметрів та зводимо квівертип.",
+                        voiceTextEn: "Attach a sixty centimeter hooklength and tension the quiver tip.",
+                        sfx: "cast"
+                    },
+                    {
+                        time: 39,
+                        label: "00:39 Загин квівертипа!",
+                        subtitle: "Квівертип плавно загинається і відстрілює — це лящ! Підсікаємо!",
+                        voiceText: "Квівертип плавно загинається і відстрілює — це лящ! Підсікаємо!",
+                        voiceTextEn: "The quiver tip bends and bounces back — it is a bream! Strike!",
+                        sfx: "bite"
+                    }
+                ]
+            },
+            {
+                id: 4,
+                title: "Приготування прикормки та живого компонента",
+                category: "Фідер",
+                difficulty: "Середній",
+                durationSec: 40,
+                durationText: "00:40",
+                instructor: "Тарас Мельник",
+                sceneType: "feeder",
+                description: "Правильне зволоження суміші у 3 етапи, просіювання через сито та додавання кормового мотиля й опариша.",
+                notes: [
+                    "Зволожуйте прикормку за 30–40 хвилин до старту риболовлі у три підходи невеликими порціями води.",
+                    "Правильно зволожена суміш ліпиться в кулю однією рукою, але розсипається від легкого натискання пальцем.",
+                    "Додавайте різаного хробака та опариша безпосередньо в годівницю пробками."
+                ],
+                chapters: [
+                    {
+                        time: 0,
+                        label: "00:00 Зволоження у 3 етапи",
+                        subtitle: "Додаємо воду невеликими порціями, щоб кожна частинка суміші рівномірно набухла.",
+                        voiceText: "Додаємо воду невеликими порціями, щоб кожна частинка суміші набухла.",
+                        voiceTextEn: "Add water in small stages so every particle absorbs moisture evenly.",
+                        sfx: "splash"
+                    },
+                    {
+                        time: 14,
+                        label: "00:14 Просіювання через сито",
+                        subtitle: "Пробиваємо прикормку через сито 3 мм — суміш стає пухкою і дає апетитний шлейф.",
+                        voiceText: "Пробиваємо прикормку через сито — суміш стає пухкою і дає шлейф.",
+                        voiceTextEn: "Riddle the groundbait through a sieve to make it fluffy.",
+                        sfx: "cast"
+                    },
+                    {
+                        time: 27,
+                        label: "00:27 Подача живого корму",
+                        subtitle: "Закриваємо опариша в годівниці пробками прикормки — на дні він одразу виходить на стіл.",
+                        voiceText: "Закриваємо опариша в годівниці пробками прикормки — риба вже на точці!",
+                        voiceTextEn: "Plug maggots inside the feeder — the fish are right on the spot!",
+                        sfx: "bite"
+                    }
+                ]
+            },
+            {
+                id: 5,
+                title: "Махова поплавкова вудка: огрузка та промір глибини",
+                category: "Поплавок",
+                difficulty: "Початківець",
+                durationSec: 45,
+                durationText: "00:45",
+                instructor: "Ігор Савченко",
+                sceneType: "float",
+                description: "Як правильно рознести дробинки на волосіні, щоб антена поплавка показувала навіть найобережніше клювання плотви та карася.",
+                notes: [
+                    "Основний вантаж (75–80% ваги) розміщується вище, а підпасок (20–25%) — за 15–20 см від гачка.",
+                    "У робочому положенні над водою має виглядати лише яскрава антена поплавка (1.5–2 см).",
+                    "Використовуйте глибомір, щоб насадка ледь торкалася дна або йшла на 2 см вище."
+                ],
+                chapters: [
+                    {
+                        time: 0,
+                        label: "00:00 Огрузка по антену",
+                        subtitle: "Налаштовуємо дробинки так, щоб над водою стирчала лише яскрава вершинка антени.",
+                        voiceText: "Налаштовуємо дробинки так, щоб над водою стирчала лише вершинка антени.",
+                        voiceTextEn: "Adjust the split shots so only the bright tip of the antenna shows.",
+                        sfx: "splash"
+                    },
+                    {
+                        time: 15,
+                        label: "00:15 Підпасок біля дна",
+                        subtitle: "Маленький підпасок за 15 см від гачка фіксує насадку біля самого дна.",
+                        voiceText: "Маленький підпасок за п'ятнадцять сантиметрів від гачка фіксує насадку.",
+                        voiceTextEn: "A tiny dropper shot fifteen centimeters from the hook anchors the bait.",
+                        sfx: "cast"
+                    },
+                    {
+                        time: 30,
+                        label: "00:30 Покльовка на підйом!",
+                        subtitle: "Карась підняв підпасок і поплавок ліг на воду! М'яко підсікаємо!",
+                        voiceText: "Карась підняв підпасок і поплавок ліг на воду! М'яко підсікаємо!",
+                        voiceTextEn: "The crucian lifted the dropper shot and the float laid flat! Strike gently!",
+                        sfx: "bite"
+                    }
+                ]
+            },
+            {
+                id: 6,
+                title: "Лов на безмотилку: гра мормишкою «гвоздешарик»",
+                category: "Зимова рибалка",
+                difficulty: "Профі",
+                durationSec: 45,
+                durationText: "00:45",
+                instructor: "Віталій Бондаренко",
+                sceneType: "winter",
+                description: "Техніка високочастотної гри лавсановим кивком без наживки, пошук активного окуня та плотви на першому й останньому льоді.",
+                notes: [
+                    "Тримайте вудку під кутом 30–40 градусів до лунки для плавної передачі коливань на кивок.",
+                    "Чергуйте високочастотну «пилку» з плавним підйомом та контрольною паузою у верхній точці.",
+                    "Найчастіше риба б'є в кивок на зупинці після 3–4 підйомів мормишки."
+                ],
+                chapters: [
+                    {
+                        time: 0,
+                        label: "00:00 Робота кивка в лунці",
+                        subtitle: "Лавсановий кивок згинається під кутом 30° під вагою вольфрамової мормишки.",
+                        voiceText: "Лавсановий кивок згинається під кутом тридцять градусів під вагою мормишки.",
+                        voiceTextEn: "The spring bobber bends at thirty degrees under the tungsten jig.",
+                        sfx: "splash"
+                    },
+                    {
+                        time: 15,
+                        label: "00:15 Високочастотна «пилка»",
+                        subtitle: "Задаємо дрібну вібрацію та повільно піднімаємо гвоздешарик від дна.",
+                        voiceText: "Задаємо дрібну вібрацію та повільно піднімаємо гвоздешарик від дна.",
+                        voiceTextEn: "Create rapid vibrations while slowly lifting the jig off the bottom.",
+                        sfx: "cast"
+                    },
+                    {
+                        time: 30,
+                        label: "00:30 Збій кивка — окунь!",
+                        subtitle: "На паузі кивок різко зігнувся вниз — смугастий окунь атакував кульку!",
+                        voiceText: "На паузі кивок різко зігнувся вниз — смугастий окунь атакував кульку!",
+                        voiceTextEn: "On the pause the bobber snapped down — a perch hit the brass bead!",
+                        sfx: "bite"
+                    }
+                ]
+            },
+            {
+                id: 7,
+                title: "Надійне з'єднання шнура та флюорокарбону (Вузол «Морква»)",
+                category: "В'язання вузлів",
+                difficulty: "Середній",
+                durationSec: 42,
+                durationText: "00:42",
+                instructor: "Олександр Ковальчук",
+                sceneType: "knot",
+                description: "Компактний конусний вузол, який легко проходить крізь кільця спінінга при закиданні та зберігає до 90% міцності.",
+                notes: [
+                    "Обов'язково змочуйте вузол водою або слиною перед фінальним затягуванням, щоб не перепалити флюорокарбон.",
+                    "Робіть 8–10 обертів шнуром в один бік та 6–7 обертів у зворотний.",
+                    "Обрізайте вільні кінці, залишаючи мінімальні «вусики» 1.5–2 мм."
+                ],
+                chapters: [
+                    {
+                        time: 0,
+                        label: "00:00 Стопор на флюрі",
+                        subtitle: "Зав'язуємо компактний стопорний вузол на кінці флюорокарбонового повідця.",
+                        voiceText: "Зав'язуємо компактний стопорний вузол на кінці флюорокарбону.",
+                        voiceTextEn: "Tie a compact stopper knot at the end of the fluorocarbon leader.",
+                        sfx: "cast"
+                    },
+                    {
+                        time: 14,
+                        label: "00:14 Витків вперед і назад",
+                        subtitle: "Намотуємо 9 витків шнура вперед та 7 витків поверх них у зворотному напрямку.",
+                        voiceText: "Намотуємо дев'ять витків шнура вперед та сім витків поверх них назад.",
+                        voiceTextEn: "Wrap nine turns forward and seven turns back over the first layer.",
+                        sfx: "splash"
+                    },
+                    {
+                        time: 28,
+                        label: "00:28 Змочування та затягування",
+                        subtitle: "Змочуємо вузол, плавно стягуємо витки в ідеальний конус і обрізаємо кінці.",
+                        voiceText: "Змочуємо вузол, стягуємо витки в ідеальний конус і обрізаємо кінці.",
+                        voiceTextEn: "Wet the knot, pull into a smooth cone and trim the tag ends.",
+                        sfx: "bite"
+                    }
+                ]
+            },
+            {
+                id: 8,
+                title: "Пошук стоянок судака в коряжнику на офсетний гачок",
+                category: "Спінінг",
+                difficulty: "Профі",
+                durationSec: 48,
+                durationText: "00:48",
+                instructor: "Олександр Ковальчук",
+                sceneType: "snag",
+                description: "Монтаж незачіпляйки на шарнірній чебурашці, проходження затоплених дерев без обривів та правильна жорстка підсічка.",
+                notes: [
+                    "Жало офсетного гачка має бути щільно притиснуте до спинки силіконової приманки або сховане в ребрах.",
+                    "При контакті з гілкою не підсікайте різко — плавно перетягніть приманку кінчиком вудилища.",
+                    "Для пробивання кістлявої пащі судака використовуйте вудилище швидкого строю (Fast / Extra-Fast)."
+                ],
+                chapters: [
+                    {
+                        time: 0,
+                        label: "00:00 Монтаж на офсетнику",
+                        subtitle: "Ховаємо жало офсетного гачка у спинку віброхвоста — приманка не боїться гілок.",
+                        voiceText: "Ховаємо жало офсетного гачка у спинку віброхвоста — приманка не боїться гілок.",
+                        voiceTextEn: "Hide the offset hook point in the shad back so it glides over branches.",
+                        sfx: "cast"
+                    },
+                    {
+                        time: 16,
+                        label: "00:16 Перетягування через корч",
+                        subtitle: "Приманка вперлася в гілку — плавно піднімаємо спінінг і скидаємо її за корч.",
+                        voiceText: "Приманка вперлася в гілку — плавно піднімаємо спінінг і скидаємо її за корч.",
+                        voiceTextEn: "When hitting a branch, lift the rod gently and drop the lure behind the log.",
+                        sfx: "splash"
+                    },
+                    {
+                        time: 32,
+                        label: "00:32 Жорстка підсічка з ями!",
+                        subtitle: "Злий удар судака з-під корча! Просікаємо пащу і форсовано виводимо наверх!",
+                        voiceText: "Злий удар судака з-під корча! Просікаємо пащу і виводимо наверх!",
+                        voiceTextEn: "Fierce zander strike from under the log! Set the hook hard and lift fast!",
+                        sfx: "drag"
+                    }
+                ]
+            }
+        ];
+
+        // ==========================================
+        // 2. ДОВІДНИК ВУЗЛІВ ТА ОСНАСТОК
+        // ==========================================
+        const knotsData = [
+            {
+                name: "Вузол Паломар",
+                purpose: "Для шнура та флюорокарбону",
+                strength: "Міцність на розрив: 95%",
+                steps: [
+                    {
+                        text: "Складіть шнур удвічі, утворивши петлю довжиною 12–15 см, та просуньте її у вушко гачка або вертлюжка.",
+                        svg: `<svg viewBox="0 0 220 140" class="w-full h-full"><circle cx="170" cy="70" r="18" fill="none" stroke="#94A3B8" stroke-width="5"/><path d="M20,62 L175,62 C192,62 192,78 175,78 L20,78" fill="none" stroke="#FBBF24" stroke-width="4" stroke-linecap="round"/></svg>`
+                    },
+                    {
+                        text: "Зав'яжіть простий одинарний вузол здвоєним шнуром навколо основної жилки, не затягуючи його до кінця.",
+                        svg: `<svg viewBox="0 0 220 140" class="w-full h-full"><circle cx="175" cy="70" r="16" fill="none" stroke="#94A3B8" stroke-width="5"/><path d="M20,65 L95,65 C115,35 135,105 110,105 C85,105 105,35 130,65 L175,65" fill="none" stroke="#FBBF24" stroke-width="4"/><path d="M175,75 L125,75" fill="none" stroke="#38BDF8" stroke-width="4"/></svg>`
+                    },
+                    {
+                        text: "Протягніть гачок крізь вільну петлю, обов'язково змочіть вузол водою і плавно затягніть за обидва кінці.",
+                        svg: `<svg viewBox="0 0 220 140" class="w-full h-full"><circle cx="165" cy="70" r="16" fill="none" stroke="#94A3B8" stroke-width="5"/><rect x="132" y="61" width="18" height="18" rx="5" fill="#FBBF24"/><path d="M20,70 L135,70" fill="none" stroke="#FBBF24" stroke-width="4.5"/><path d="M138,61 L118,45" fill="none" stroke="#38BDF8" stroke-width="3" stroke-dasharray="4 3"/></svg>`
+                    }
+                ]
+            },
+            {
+                name: "Покращений Клінч",
+                purpose: "Універсальний для монофілу",
+                strength: "Міцність на розрив: 90%",
+                steps: [
+                    {
+                        text: "Протягніть кінець волосіні у вушко гачка і зробіть 6–7 щільних обертів навколо основної жилки.",
+                        svg: `<svg viewBox="0 0 220 140" class="w-full h-full"><circle cx="175" cy="70" r="16" fill="none" stroke="#94A3B8" stroke-width="5"/><path d="M20,70 L165,70" fill="none" stroke="#38BDF8" stroke-width="4"/><path d="M150,70 C145,52 135,88 130,70 C125,52 115,88 110,70 C105,52 95,88 90,70" fill="none" stroke="#FBBF24" stroke-width="4"/></svg>`
+                    },
+                    {
+                        text: "Просуньте вільний кінець у нижню петлю біля вушка гачка, а потім у велику петлю, що утворилася зверху.",
+                        svg: `<svg viewBox="0 0 220 140" class="w-full h-full"><circle cx="175" cy="70" r="16" fill="none" stroke="#94A3B8" stroke-width="5"/><path d="M20,70 L165,70" fill="none" stroke="#38BDF8" stroke-width="4"/><path d="M145,70 C140,48 120,48 115,70 C110,92 90,92 85,70 L145,42" fill="none" stroke="#FBBF24" stroke-width="4"/></svg>`
+                    },
+                    {
+                        text: "Змочіть витки, потягніть за основну волосінь до щільного упору біля вушка та відріжте зайвий хвостик.",
+                        svg: `<svg viewBox="0 0 220 140" class="w-full h-full"><circle cx="168" cy="70" r="16" fill="none" stroke="#94A3B8" stroke-width="5"/><rect x="122" y="62" width="28" height="16" rx="4" fill="#FBBF24"/><path d="M20,70 L124,70" fill="none" stroke="#38BDF8" stroke-width="4.5"/></svg>`
+                    }
+                ]
+            },
+            {
+                name: "Оснастка Патерностер",
+                purpose: "Чутливий фідерний монтаж",
+                strength: "Чутливість клювання: 98%",
+                steps: [
+                    {
+                        text: "На кінці основного шнура або шок-лідера зав'яжіть велику петлю довжиною 15–20 см вузлом «вісімка» для кріплення годівниці.",
+                        svg: `<svg viewBox="0 0 220 140" class="w-full h-full"><path d="M20,50 L120,50" fill="none" stroke="#38BDF8" stroke-width="4"/><ellipse cx="155" cy="50" rx="35" ry="16" fill="none" stroke="#FBBF24" stroke-width="4"/><circle cx="120" cy="50" r="5" fill="#FBBF24"/></svg>`
+                    },
+                    {
+                        text: "Відступіть 10–12 см вище петлі під годівницю та сформуйте невеликий відвід (петлю 4–5 см) для повідця з гачком.",
+                        svg: `<svg viewBox="0 0 220 140" class="w-full h-full"><path d="M20,45 L130,45" fill="none" stroke="#38BDF8" stroke-width="4"/><ellipse cx="165" cy="45" rx="32" ry="14" fill="none" stroke="#FBBF24" stroke-width="4"/><path d="M85,45 L85,95" fill="none" stroke="#34D399" stroke-width="3.5"/><circle cx="85" cy="102" r="7" fill="none" stroke="#34D399" stroke-width="3"/></svg>`
+                    },
+                    {
+                        text: "Приєднайте годівницю у нижню петлю, а повідець із гачком (40–80 см) закріпіть методом «петля в петлю».",
+                        svg: `<svg viewBox="0 0 220 140" class="w-full h-full"><path d="M20,45 L140,45" fill="none" stroke="#38BDF8" stroke-width="4"/><rect x="145" y="33" width="42" height="24" rx="5" fill="#64748B" stroke="#FBBF24" stroke-width="3"/><path d="M85,45 L85,112 C85,120 96,120 96,112" fill="none" stroke="#34D399" stroke-width="3.5"/></svg>`
+                    }
+                ]
+            }
+        ];
+
+        // ==========================================
+        // 3. ПИТАННЯ ДЛЯ ТЕСТУ «ПЕРЕВІР СВОЇ ЗНАННЯ»
+        // ==========================================
+        const quizQuestions = [
+            {
+                question: "Яка оптимальна тривалість паузи падіння приманки при класичній джиговій проводці?",
+                options: [
+                    "0.2–0.5 секунди (майже без зупинки)",
+                    "2–3 секунди після двох обертів котушки",
+                    "10–15 секунд на одному місці"
+                ],
+                correct: 1,
+                explanation: "Пауза у 2–3 секунди вважається золотим стандартом джигу — саме на фазі вільного падіння приманки відбувається до 80% клювань хижака."
+            },
+            {
+                question: "Для чого фідерну дистанцію фіксують у кліпсі шпулі котушки?",
+                options: [
+                    "Щоб усі закидання лягали точно в одну закормлену точку",
+                    "Щоб риба не могла змотати шнур після підсічки",
+                    "Для збільшення дальності закидання"
+                ],
+                correct: 0,
+                explanation: "Кліпсування гарантує потрапляння кожної годівниці в одне кормове пятно, що швидко збирає та утримує зграю білої риби."
+            },
+            {
+                question: "Що потрібно зробити перед фінальним затягуванням будь-якого рибальського вузла?",
+                options: [
+                    "Нагріти вузол запальничкою",
+                    "Обов'язково змочити вузол водою або слиною",
+                    "Різко смикнути за вільний кінець насухо"
+                ],
+                correct: 1,
+                explanation: "Змочування зменшує тертя при затягуванні та запобігає перегріву і деформації волосіні чи флюорокарбону."
+            },
+            {
+                question: "Як поводиться поплавок при класичному клюванні карася або ляща «на підйом»?",
+                options: [
+                    "Різко занурюється глибоко під воду",
+                    "Піднімається вище звичайного рівня і лягає на поверхню води",
+                    "Залишається нерухомим протягом хвилини"
+                ],
+                correct: 1,
+                explanation: "Коли риба бере насадку з дна і піднімає підпасок, поплавок втрачає огрузку та спливає, лягаючи на воду."
+            },
+            {
+                question: "Що означає маркування «SP» (Suspender) на корпусі воблера?",
+                options: [
+                    "Воблер швидко спливає на поверхню",
+                    "Воблер має нейтральну плавучість і зависає в товщі води на паузі",
+                    "Воблер призначений лише для морської риболовлі"
+                ],
+                correct: 1,
+                explanation: "Суспендер (SP) зависає на заданій глибині під час паузи при твічингу, провокуючи навіть пасивну щуку."
+            }
+        ];
+
+        // ==========================================
+        // 4. ГЛОБАЛЬНИЙ СТАН ДОДАТКУ
+        // ==========================================
+        let completedLessons = JSON.parse(localStorage.getItem('fishingAcademyCompleted') || '[]');
+        let activeCategory = 'all';
+        let activeDifficulty = 'all';
+        let currentModalLessonId = null;
+
+        let currentKnotIndex = 0;
+        let currentKnotStep = 0;
+
+        let currentQuizIndex = 0;
+        let quizScore = 0;
+        let quizAnswered = false;
+
+        // Стан відеоплеєра та аудіо
+        let isPlayerPlaying = false;
+        let isCustomVideoMode = false;
+        let currentVideoTime = 0;
+        let lastFrameTimestamp = 0;
+        let animFrameId = null;
+        let playbackSpeed = 1;
+        let lastSpokenChapterIdx = -1;
+
+        let masterVolume = 0.85;
+        let voiceVolume = 1.0;
+        let sfxVolume = 0.65;
+        let isMuted = false;
+        let isVoiceEnabled = true;
+        let isSubtitlesEnabled = true;
+
+        // ==========================================
+        // 5. ЗВУКОВИЙ РУШІЙ (WEB AUDIO API: РІЧКА ТА СНАСТІ)
+        // ==========================================
+        let audioCtx = null;
+        let ambienceNode = null;
+        let ambienceGain = null;
+
+        function initAudioEngine() {
+            if (!audioCtx) {
+                const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+                if (AudioContextClass) {
+                    audioCtx = new AudioContextClass();
+                }
+            }
+            if (audioCtx && audioCtx.state === 'suspended') {
+                audioCtx.resume().catch(() => {});
+            }
+        }
+
+        function updateAudioGains() {
+            if (ambienceGain && audioCtx) {
+                const target = isMuted ? 0 : masterVolume * sfxVolume * 0.08;
+                ambienceGain.gain.setTargetAtTime(target, audioCtx.currentTime, 0.05);
+            }
+            const customVideo = document.getElementById('custom-html5-video');
+            if (customVideo) {
+                customVideo.muted = isMuted;
+                customVideo.volume = masterVolume;
+            }
+        }
+
+        function startRiverAmbience() {
+            initAudioEngine();
+            if (!audioCtx || ambienceNode) return;
+
+            const bufferSize = audioCtx.sampleRate * 2;
+            const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+            const output = noiseBuffer.getChannelData(0);
+            let lastOut = 0.0;
+            for (let i = 0; i < bufferSize; i++) {
+                const white = Math.random() * 2 - 1;
+                output[i] = (lastOut + (0.02 * white)) / 1.02;
+                lastOut = output[i];
+                output[i] *= 2.5;
+            }
+
+            const whiteNoise = audioCtx.createBufferSource();
+            whiteNoise.buffer = noiseBuffer;
+            whiteNoise.loop = true;
+
+            const filter = audioCtx.createBiquadFilter();
+            filter.type = 'lowpass';
+            filter.frequency.value = 380;
+
+            ambienceGain = audioCtx.createGain();
+            ambienceGain.gain.value = isMuted ? 0 : masterVolume * sfxVolume * 0.08;
+
+            whiteNoise.connect(filter);
+            filter.connect(ambienceGain);
+            ambienceGain.connect(audioCtx.destination);
+            whiteNoise.start();
+            ambienceNode = whiteNoise;
+        }
+
+        function stopRiverAmbience() {
+            if (ambienceNode) {
+                try { ambienceNode.stop(); ambienceNode.disconnect(); } catch (e) {}
+                ambienceNode = null;
+            }
+        }
+
+        function playFishingSfx(type) {
+            initAudioEngine();
+            if (!audioCtx || isMuted || masterVolume <= 0 || sfxVolume <= 0) return;
+
+            const now = audioCtx.currentTime;
+            const gain = audioCtx.createGain();
+            const vol = masterVolume * sfxVolume * 0.25;
+            gain.connect(audioCtx.destination);
+
+            if (type === 'cast') {
+                const osc = audioCtx.createOscillator();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(180, now);
+                osc.frequency.exponentialRampToValueAtTime(620, now + 0.18);
+                osc.frequency.exponentialRampToValueAtTime(140, now + 0.35);
+                gain.gain.setValueAtTime(0.01, now);
+                gain.gain.linearRampToValueAtTime(vol, now + 0.14);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.36);
+                osc.connect(gain);
+                osc.start(now);
+                osc.stop(now + 0.37);
+            } else if (type === 'splash') {
+                const osc = audioCtx.createOscillator();
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(320, now);
+                osc.frequency.exponentialRampToValueAtTime(75, now + 0.28);
+                gain.gain.setValueAtTime(vol * 1.1, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+                osc.connect(gain);
+                osc.start(now);
+                osc.stop(now + 0.32);
+            } else if (type === 'bite') {
+                [880, 1175].forEach((freq, idx) => {
+                    const osc = audioCtx.createOscillator();
+                    const g = audioCtx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(freq, now + idx * 0.12);
+                    g.gain.setValueAtTime(vol * 0.8, now + idx * 0.12);
+                    g.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.12 + 0.22);
+                    osc.connect(g);
+                    g.connect(audioCtx.destination);
+                    osc.start(now + idx * 0.12);
+                    osc.stop(now + idx * 0.12 + 0.24);
+                });
+            } else if (type === 'drag') {
+                for (let i = 0; i < 8; i++) {
+                    const osc = audioCtx.createOscillator();
+                    const g = audioCtx.createGain();
+                    osc.type = 'square';
+                    osc.frequency.setValueAtTime(1400 - i * 40, now + i * 0.045);
+                    g.gain.setValueAtTime(vol * 0.4, now + i * 0.045);
+                    g.gain.exponentialRampToValueAtTime(0.001, now + i * 0.045 + 0.03);
+                    osc.connect(g);
+                    g.connect(audioCtx.destination);
+                    osc.start(now + i * 0.045);
+                    osc.stop(now + i * 0.045 + 0.035);
+                }
+            }
+        }
+
+        // ==========================================
+        // 6. ОЗВУЧКА ІНСТРУКТОРА (КОЛОРИТНИЙ РИБАЛКА + ДИКТОР)
+        // ==========================================
+        let gibberishTimer = null;
+
+        function stopSpeech() {
+            if (gibberishTimer) {
+                clearInterval(gibberishTimer);
+                gibberishTimer = null;
+            }
+            if ('speechSynthesis' in window) {
+                try { window.speechSynthesis.cancel(); } catch (e) {}
+            }
+        }
+
+        function speakFishermanGibberish(text) {
+            initAudioEngine();
+            stopSpeech();
+            if (!audioCtx || isMuted || !isVoiceEnabled) return;
+
+            const statusLabel = document.getElementById('audio-status-label');
+            if (statusLabel) statusLabel.textContent = "🎙 Інструктор пояснює...";
+
+            const syllables = Math.min(18, Math.max(6, Math.floor((text || "").length / 4)));
+            let count = 0;
+
+            gibberishTimer = setInterval(() => {
+                if (count >= syllables || isMuted || !isVoiceEnabled) {
+                    clearInterval(gibberishTimer);
+                    gibberishTimer = null;
+                    if (statusLabel) statusLabel.textContent = isPlayerPlaying ? "🌊 Звук водойми активний" : "Готово";
+                    return;
+                }
+
+                const now = audioCtx.currentTime;
+                const osc = audioCtx.createOscillator();
+                const filter = audioCtx.createBiquadFilter();
+                const gain = audioCtx.createGain();
+
+                const baseFreq = 115 + Math.random() * 55;
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(baseFreq, now);
+                osc.frequency.exponentialRampToValueAtTime(baseFreq * (0.85 + Math.random() * 0.35), now + 0.09);
+
+                filter.type = 'bandpass';
+                filter.frequency.setValueAtTime(480 + Math.random() * 420, now);
+                filter.Q.value = 3.2;
+
+                const vol = masterVolume * voiceVolume * 0.16;
+                gain.gain.setValueAtTime(0.001, now);
+                gain.gain.linearRampToValueAtTime(vol, now + 0.02);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.11);
+
+                osc.connect(filter);
+                filter.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                osc.start(now);
+                osc.stop(now + 0.12);
+                count++;
+            }, 135);
+        }
+
+        function speakInstructorLine(textUk, textEn) {
+            if (!isVoiceEnabled || isMuted) return;
+            const voiceMode = document.getElementById('voice-select')?.value || 'gibberish';
+
+            if (voiceMode === 'gibberish') {
+                speakFishermanGibberish(textUk);
+                return;
+            }
+
+            if ('speechSynthesis' in window) {
+                stopSpeech();
+                const voices = window.speechSynthesis.getVoices();
+                const ukVoice = voices.find(v => v.lang.toLowerCase().includes('uk'));
+                const utter = new SpeechSynthesisUtterance(ukVoice ? textUk : (textEn || textUk));
+                utter.lang = ukVoice ? ukVoice.lang : 'en-US';
+                if (ukVoice) utter.voice = ukVoice;
+                utter.volume = Math.min(1, masterVolume * voiceVolume);
+                utter.rate = playbackSpeed;
+                window.speechSynthesis.speak(utter);
+            } else {
+                speakFishermanGibberish(textUk);
+            }
+        }
+
+        // ==========================================
+        // 7. АНІМОВАНИЙ CANVAS-ВІДЕОРУШІЙ (6 УНІКАЛЬНИХ ДИНАМІЧНИХ СЦЕН)
+        // ==========================================
+        function formatSeconds(sec) {
+            const s = Math.max(0, Math.floor(sec));
+            const mins = String(Math.floor(s / 60)).padStart(2, '0');
+            const secs = String(s % 60).padStart(2, '0');
+            return `${mins}:${secs}`;
+        }
+
+        function drawFishShape(ctx, x, y, size, dir, color, dpr) {
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.scale(dir, 1);
+            ctx.fillStyle = color;
+            ctx.beginPath();
+            ctx.ellipse(0, 0, size * dpr, size * 0.36 * dpr, 0, 0, Math.PI * 2);
+            ctx.fill();
+            // Хвіст
+            ctx.beginPath();
+            ctx.moveTo(-size * 0.85 * dpr, 0);
+            ctx.lineTo(-size * 1.35 * dpr, -size * 0.35 * dpr);
+            ctx.lineTo(-size * 1.35 * dpr, size * 0.35 * dpr);
+            ctx.closePath();
+            ctx.fill();
+            // Око
+            ctx.fillStyle = '#0F172A';
+            ctx.beginPath();
+            ctx.arc(size * 0.55 * dpr, -size * 0.08 * dpr, size * 0.08 * dpr, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+        }
+
+        function drawLessonCanvasFrame(lesson, timeSec) {
+            const canvas = document.getElementById('lesson-canvas');
+            if (!canvas || isCustomVideoMode) return;
+
+            const rect = canvas.getBoundingClientRect();
+            const dpr = Math.min(window.devicePixelRatio || 1, 2);
+            const targetW = Math.max(320, Math.floor(rect.width * dpr));
+            const targetH = Math.max(180, Math.floor(rect.height * dpr));
+
+            if (canvas.width !== targetW || canvas.height !== targetH) {
+                canvas.width = targetW;
+                canvas.height = targetH;
+            }
+
+            const ctx = canvas.getContext('2d');
+            const w = canvas.width;
+            const h = canvas.height;
+            const progress = Math.min(1, timeSec / Math.max(1, lesson.durationSec));
+            ctx.clearRect(0, 0, w, h);
+
+            // 1. СЦЕНА: ДЖИГ НА БРІВЦІ (Човен, ехолотна сітка, сходинка та атака судака)
+            if (lesson.sceneType === 'jig') {
+                const sky = ctx.createLinearGradient(0, 0, 0, h * 0.35);
+                sky.addColorStop(0, '#071521');
+                sky.addColorStop(1, '#1A4E73');
+                ctx.fillStyle = sky;
+                ctx.fillRect(0, 0, w, h * 0.35);
+
+                const water = ctx.createLinearGradient(0, h * 0.35, 0, h);
+                water.addColorStop(0, '#0C4A6E');
+                water.addColorStop(1, '#04131E');
+                ctx.fillStyle = water;
+                ctx.fillRect(0, h * 0.35, w, h * 0.65);
+
+                // Промені світла у воді
+                ctx.fillStyle = 'rgba(186, 230, 253, 0.04)';
+                for (let i = 0; i < 4; i++) {
+                    ctx.beginPath();
+                    ctx.moveTo(w * (0.2 + i * 0.2), h * 0.35);
+                    ctx.lineTo(w * (0.3 + i * 0.2), h);
+                    ctx.lineTo(w * (0.12 + i * 0.2), h);
+                    ctx.closePath();
+                    ctx.fill();
+                }
+
+                // Рельєф дна з різкою русловою брівкою
+                ctx.beginPath();
+                ctx.moveTo(0, h);
+                ctx.lineTo(0, h * 0.66);
+                ctx.lineTo(w * 0.36, h * 0.68);
+                ctx.lineTo(w * 0.56, h * 0.90);
+                ctx.lineTo(w, h * 0.92);
+                ctx.lineTo(w, h);
+                ctx.closePath();
+                ctx.fillStyle = '#091C2A';
+                ctx.fill();
+
+                // Човен рибалки зліва на воді
+                const boatX = w * 0.14;
+                const boatY = h * 0.34 + Math.sin(timeSec * 2.5) * (2 * dpr);
+                ctx.fillStyle = '#334155';
+                ctx.beginPath();
+                ctx.moveTo(boatX - 38 * dpr, boatY);
+                ctx.lineTo(boatX + 42 * dpr, boatY);
+                ctx.lineTo(boatX + 28 * dpr, boatY + 12 * dpr);
+                ctx.lineTo(boatX - 28 * dpr, boatY + 12 * dpr);
+                ctx.closePath();
+                ctx.fill();
+
+                // Спінінг
+                ctx.strokeStyle = '#F8FAFC';
+                ctx.lineWidth = 2.5 * dpr;
+                ctx.beginPath();
+                ctx.moveTo(boatX + 12 * dpr, boatY - 2 * dpr);
+                ctx.quadraticCurveTo(boatX + 45 * dpr, boatY - 26 * dpr, boatX + 75 * dpr, boatY - 14 * dpr);
+                ctx.stroke();
+
+                // Траєкторія джиг-приманки (сходинка з права наліво до човна)
+                const lureX = w * (0.85 - progress * 0.58);
+                const bottomAtLure = lureX < w * 0.36 ? h * 0.66 : (lureX < w * 0.56 ? h * (0.68 + ((lureX - w * 0.36) / (w * 0.2)) * 0.22) : h * 0.90);
+                const hop = Math.abs(Math.sin(timeSec * 3.2)) * (h * 0.13);
+                const lureY = bottomAtLure - hop - 8 * dpr;
+
+                // Шнур
+                ctx.strokeStyle = 'rgba(251, 191, 36, 0.7)';
+                ctx.lineWidth = 1.5 * dpr;
+                ctx.beginPath();
+                ctx.moveTo(boatX + 75 * dpr, boatY - 14 * dpr);
+                ctx.quadraticCurveTo(lureX * 0.6, lureY * 0.65, lureX, lureY);
+                ctx.stroke();
+
+                // Приманка
+                ctx.fillStyle = '#F59E0B';
+                ctx.beginPath();
+                ctx.arc(lureX - 6 * dpr, lureY, 4.5 * dpr, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.fillStyle = '#38BDF8';
+                ctx.beginPath();
+                ctx.ellipse(lureX + 5 * dpr, lureY, 10 * dpr, 4 * dpr, 0, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Судак переслідує і атакує на 36-й секунді
+                const fishX = progress > 0.72 ? lureX + 16 * dpr : w * 0.62 + Math.sin(timeSec * 1.8) * (18 * dpr);
+                const fishY = progress > 0.72 ? lureY : h * 0.80 + Math.cos(timeSec * 2) * (6 * dpr);
+                drawFishShape(ctx, fishX, fishY, 26, -1, '#34D399', dpr);
+            }
+
+            // 2. СЦЕНА: ТВІЧИНГ НА МІЛКОВОДДІ (Сонячний ранок, підводні водорості, зигзаги воблера та щука)
+            else if (lesson.sceneType === 'twitch') {
+                const sky = ctx.createLinearGradient(0, 0, 0, h * 0.32);
+                sky.addColorStop(0, '#1E3A5F');
+                sky.addColorStop(1, '#F59E0B');
+                ctx.fillStyle = sky;
+                ctx.fillRect(0, 0, w, h * 0.32);
+
+                const water = ctx.createLinearGradient(0, h * 0.32, 0, h);
+                water.addColorStop(0, '#0F766E');
+                water.addColorStop(1, '#042F2E');
+                ctx.fillStyle = water;
+                ctx.fillRect(0, h * 0.32, w, h * 0.68);
+
+                // Підводні водорості, що колишуться
+                for (let i = 0; i < 14; i++) {
+                    const wx = w * (0.06 + i * 0.07);
+                    const wh = h * (0.18 + (i % 3) * 0.06);
+                    const sway = Math.sin(timeSec * 2 + i) * (8 * dpr);
+                    ctx.strokeStyle = '#10B981';
+                    ctx.lineWidth = 4 * dpr;
+                    ctx.beginPath();
+                    ctx.moveTo(wx, h);
+                    ctx.quadraticCurveTo(wx + sway, h - wh * 0.5, wx - sway * 0.6, h - wh);
+                    ctx.stroke();
+                }
+
+                // Зигзагоподібний рух воблера мінноу над травою
+                const lureX = w * (0.82 - progress * 0.55);
+                const dart = Math.sin(timeSec * 6.5) * (14 * dpr);
+                const lureY = h * 0.52 + dart;
+
+                ctx.strokeStyle = 'rgba(255,255,255,0.45)';
+                ctx.lineWidth = 1.5 * dpr;
+                ctx.beginPath();
+                ctx.moveTo(w * 0.05, h * 0.25);
+                ctx.lineTo(lureX, lureY);
+                ctx.stroke();
+
+                // Воблер
+                ctx.fillStyle = '#FBBF24';
+                ctx.beginPath();
+                ctx.ellipse(lureX, lureY, 14 * dpr, 4.5 * dpr, Math.sin(timeSec * 6.5) * 0.3, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Щука вискакує з водоростей на 30-й секунді
+                const pikeX = progress > 0.65 ? lureX + 20 * dpr : w * 0.45;
+                const pikeY = progress > 0.65 ? lureY + 2 * dpr : h * 0.84 + Math.sin(timeSec * 2) * (4 * dpr);
+                drawFishShape(ctx, pikeX, pikeY, 32, -1, '#A3E635', dpr);
+            }
+
+            // 3. СЦЕНА: ФІДЕР (Квівертип зліва, годівниця на дні та хмара прикормки зі зграєю лящів)
+            else if (lesson.sceneType === 'feeder') {
+                ctx.fillStyle = '#0B2538';
+                ctx.fillRect(0, 0, w, h * 0.34);
+                const water = ctx.createLinearGradient(0, h * 0.34, 0, h);
+                water.addColorStop(0, '#115E59');
+                water.addColorStop(1, '#082F49');
+                ctx.fillStyle = water;
+                ctx.fillRect(0, h * 0.34, w, h * 0.66);
+
+                // Дно
+                ctx.fillStyle = '#1E293B';
+                ctx.fillRect(0, h * 0.86, w, h * 0.14);
+
+                // Хмара прикормки навколо годівниці
+                const feederX = w * 0.62;
+                const feederY = h * 0.83;
+                const cloudRadius = (28 + Math.sin(timeSec * 2) * 8) * dpr;
+                const cloudGrad = ctx.createRadialGradient(feederX, feederY, 4 * dpr, feederX, feederY, cloudRadius * 1.8);
+                cloudGrad.addColorStop(0, 'rgba(251, 191, 36, 0.55)');
+                cloudGrad.addColorStop(1, 'rgba(251, 191, 36, 0)');
+                ctx.fillStyle = cloudGrad;
+                ctx.beginPath();
+                ctx.arc(feederX, feederY, cloudRadius * 1.8, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Фідерна годівниця
+                ctx.fillStyle = '#64748B';
+                ctx.fillRect(feederX - 14 * dpr, feederY - 7 * dpr, 28 * dpr, 12 * dpr);
+                ctx.strokeStyle = '#F59E0B';
+                ctx.lineWidth = 2 * dpr;
+                ctx.strokeRect(feederX - 14 * dpr, feederY - 7 * dpr, 28 * dpr, 12 * dpr);
+
+                // Квівертип на березі зліва (згинається при покльовці)
+                const biteBend = progress > 0.72 ? Math.sin(timeSec * 16) * (16 * dpr) : Math.sin(timeSec * 2) * (3 * dpr);
+                ctx.strokeStyle = '#F97316';
+                ctx.lineWidth = 3.5 * dpr;
+                ctx.beginPath();
+                ctx.moveTo(w * 0.04, h * 0.42);
+                ctx.quadraticCurveTo(w * 0.14, h * 0.22, w * 0.22, h * 0.18 + biteBend);
+                ctx.stroke();
+
+                // Жилка від квівертипа до годівниці
+                ctx.strokeStyle = 'rgba(226, 232, 240, 0.5)';
+                ctx.lineWidth = 1.5 * dpr;
+                ctx.beginPath();
+                ctx.moveTo(w * 0.22, h * 0.18 + biteBend);
+                ctx.lineTo(feederX, feederY);
+                ctx.stroke();
+
+                // Зграя лящів підходить на прикормку
+                drawFishShape(ctx, w * 0.78 - progress * 40 * dpr, h * 0.74, 24, -1, '#CBD5E1', dpr);
+                drawFishShape(ctx, w * 0.46 + progress * 35 * dpr, h * 0.77, 20, 1, '#94A3B8', dpr);
+            }
+
+            // 4. СЦЕНА: ПОПЛАВОК (Схід сонця, кола на воді та підйом поплавка при клюванні карася)
+            else if (lesson.sceneType === 'float') {
+                const sky = ctx.createLinearGradient(0, 0, 0, h * 0.42);
+                sky.addColorStop(0, '#311042');
+                sky.addColorStop(1, '#F97316');
+                ctx.fillStyle = sky;
+                ctx.fillRect(0, 0, w, h * 0.42);
+
+                // Ранкове сонце
+                ctx.fillStyle = '#FDE047';
+                ctx.beginPath();
+                ctx.arc(w * 0.75, h * 0.36, 26 * dpr, 0, Math.PI * 2);
+                ctx.fill();
+
+                const water = ctx.createLinearGradient(0, h * 0.42, 0, h);
+                water.addColorStop(0, '#0369A1');
+                water.addColorStop(1, '#082F49');
+                ctx.fillStyle = water;
+                ctx.fillRect(0, h * 0.42, w, h * 0.58);
+
+                // Очерет збоку
+                ctx.strokeStyle = '#14532D';
+                ctx.lineWidth = 4 * dpr;
+                for (let i = 0; i < 5; i++) {
+                    ctx.beginPath();
+                    ctx.moveTo(w * (0.06 + i * 0.03), h * 0.55);
+                    ctx.lineTo(w * (0.04 + i * 0.03), h * 0.14);
+                    ctx.stroke();
+                }
+
+                // Поплавок (на 30-й сек лягає на воду — покльовка на підйом!)
+                const fx = w * 0.52;
+                const isLiftBite = progress > 0.65;
+                const tiltAngle = isLiftBite ? Math.PI * 0.44 : Math.sin(timeSec * 3) * 0.08;
+                const fy = h * 0.42 + (isLiftBite ? -4 * dpr : Math.sin(timeSec * 3) * (3 * dpr));
+
+                // Кола на воді навколо поплавка
+                const rippleR = ((timeSec * 25) % 45) * dpr;
+                ctx.strokeStyle = `rgba(255, 255, 255, ${1 - rippleR / (45 * dpr)})`;
+                ctx.lineWidth = 1.5 * dpr;
+                ctx.beginPath();
+                ctx.ellipse(fx, h * 0.42, rippleR, rippleR * 0.3, 0, 0, Math.PI * 2);
+                ctx.stroke();
+
+                // Поплавок з нахилом
+                ctx.save();
+                ctx.translate(fx, fy);
+                ctx.rotate(tiltAngle);
+                ctx.fillStyle = '#EF4444';
+                ctx.fillRect(-2 * dpr, -26 * dpr, 4 * dpr, 18 * dpr);
+                ctx.fillStyle = '#FFFFFF';
+                ctx.beginPath();
+                ctx.ellipse(0, 0, 6 * dpr, 14 * dpr, 0, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+
+                // Підпасок та карась знизу
+                ctx.strokeStyle = 'rgba(255,255,255,0.5)';
+                ctx.beginPath();
+                ctx.moveTo(fx, fy + 10 * dpr);
+                ctx.lineTo(fx, h * 0.82);
+                ctx.stroke();
+                drawFishShape(ctx, isLiftBite ? fx + 15 * dpr : w * 0.68, h * 0.80, 22, -1, '#FBBF24', dpr);
+            }
+
+            // 5. СЦЕНА: ЗИМОВА РИБАЛКА (Товстий лід, лунка, гра кивком та смугастий окунь)
+            else if (lesson.sceneType === 'winter') {
+                ctx.fillStyle = '#1E293B';
+                ctx.fillRect(0, 0, w, h * 0.28);
+
+                const water = ctx.createLinearGradient(0, h * 0.38, 0, h);
+                water.addColorStop(0, '#0F172A');
+                water.addColorStop(1, '#020617');
+                ctx.fillStyle = water;
+                ctx.fillRect(0, h * 0.38, w, h * 0.62);
+
+                // Крижаний покрив з лункою посередині
+                ctx.fillStyle = '#BAE6FD';
+                ctx.fillRect(0, h * 0.28, w * 0.43, h * 0.11);
+                ctx.fillRect(w * 0.57, h * 0.28, w * 0.43, h * 0.11);
+
+                // Зимова вудка і кивок над лункою
+                const rodTipX = w * 0.50;
+                const nod = progress > 0.66 ? 12 * dpr : Math.sin(timeSec * 14) * (4 * dpr);
+                const rodTipY = h * 0.22 + nod;
+
+                ctx.strokeStyle = '#F97316';
+                ctx.lineWidth = 3 * dpr;
+                ctx.beginPath();
+                ctx.moveTo(w * 0.34, h * 0.25);
+                ctx.lineTo(rodTipX, rodTipY);
+                ctx.stroke();
+
+                // Волосінь і вольфрамова мормишка «гвоздешарик»
+                const jigY = h * (0.76 - (progress % 0.65) * 0.35) + Math.sin(timeSec * 14) * (4 * dpr);
+                ctx.strokeStyle = 'rgba(226, 232, 240, 0.7)';
+                ctx.lineWidth = 1.5 * dpr;
+                ctx.beginPath();
+                ctx.moveTo(rodTipX, rodTipY);
+                ctx.lineTo(rodTipX, jigY);
+                ctx.stroke();
+
+                ctx.fillStyle = '#94A3B8';
+                ctx.beginPath();
+                ctx.ellipse(rodTipX, jigY, 4 * dpr, 8 * dpr, 0.3, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.fillStyle = '#FBBF24';
+                ctx.beginPath();
+                ctx.arc(rodTipX + 4 * dpr, jigY + 4 * dpr, 4.5 * dpr, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Окунь атакує мормишку
+                const perchX = progress > 0.66 ? rodTipX + 22 * dpr : w * 0.68 - Math.sin(timeSec * 2) * (15 * dpr);
+                drawFishShape(ctx, perchX, jigY, 24, -1, '#22C55E', dpr);
+            }
+
+            // 6. СЦЕНА: В'ЯЗАННЯ ВУЗЛІВ ТА КОРЯЖНИК
+            else {
+                ctx.fillStyle = '#0B2538';
+                ctx.fillRect(0, 0, w, h);
+
+                if (lesson.sceneType === 'snag') {
+                    // Затоплене дерево (корч) на дні
+                    ctx.strokeStyle = '#78350F';
+                    ctx.lineWidth = 8 * dpr;
+                    ctx.beginPath();
+                    ctx.moveTo(w * 0.35, h);
+                    ctx.lineTo(w * 0.52, h * 0.58);
+                    ctx.lineTo(w * 0.68, h * 0.48);
+                    ctx.moveTo(w * 0.48, h * 0.72);
+                    ctx.lineTo(w * 0.64, h * 0.68);
+                    ctx.stroke();
+
+                    // Приманка перестрибує гілку
+                    const lx = w * (0.25 + progress * 0.55);
+                    const ly = lx > w * 0.42 && lx < w * 0.62 ? h * 0.44 : h * 0.78;
+                    ctx.strokeStyle = '#FBBF24';
+                    ctx.lineWidth = 1.5 * dpr;
+                    ctx.beginPath();
+                    ctx.moveTo(w * 0.08, h * 0.2);
+                    ctx.lineTo(lx, ly);
+                    ctx.stroke();
+
+                    ctx.fillStyle = '#F43F5E';
+                    ctx.beginPath();
+                    ctx.ellipse(lx, ly, 12 * dpr, 5 * dpr, 0, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    drawFishShape(ctx, w * 0.72, h * 0.78, 28, -1, '#34D399', dpr);
+                } else {
+                    // Макро-схема затягування вузла «Морква»
+                    const tighten = Math.min(1, progress * 1.3);
+                    const spacing = (14 - tighten * 8) * dpr;
+
+                    // Флюорокарбон
+                    ctx.strokeStyle = '#38BDF8';
+                    ctx.lineWidth = 6 * dpr;
+                    ctx.beginPath();
+                    ctx.moveTo(w * 0.15, h * 0.52);
+                    ctx.lineTo(w * 0.85, h * 0.52);
+                    ctx.stroke();
+
+                    // Витків шнура навколо флюорокарбону
+                    ctx.strokeStyle = '#FBBF24';
+                    ctx.lineWidth = 4.5 * dpr;
+                    for (let i = 0; i < 8; i++) {
+                        const vx = w * 0.38 + i * spacing;
+                        ctx.beginPath();
+                        ctx.ellipse(vx, h * 0.52, 5 * dpr, (22 - tighten * 8) * dpr, 0, 0, Math.PI * 2);
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            // Анімація звукових хвиль у HUD при відтворенні
+            const bars = document.querySelectorAll('#sound-wave-bars span');
+            if (isPlayerPlaying && !isMuted && bars.length === 4) {
+                bars.forEach((bar, idx) => {
+                    const hPct = 25 + Math.abs(Math.sin(timeSec * 8 + idx * 1.3)) * 75;
+                    bar.style.height = `${hPct}%`;
+                });
+            }
+        }
+
+        // ==========================================
+        // 8. ЛОГІКА КЕРУВАННЯ ВІДЕОПЛЕЄРОМ
+        // ==========================================
+        function getActiveLesson() {
+            return lessonsData.find(l => l.id === currentModalLessonId) || lessonsData[0];
+        }
+
+        function updatePlayerTimelineUI() {
+            const lesson = getActiveLesson();
+            const customVideo = document.getElementById('custom-html5-video');
+            const totalSec = (isCustomVideoMode && customVideo && customVideo.duration)
+                ? customVideo.duration
+                : lesson.durationSec;
+            const curSec = (isCustomVideoMode && customVideo)
+                ? customVideo.currentTime
+                : currentVideoTime;
+
+            const pct = totalSec > 0 ? Math.min(100, (curSec / totalSec) * 100) : 0;
+            const fillEl = document.getElementById('player-progress-fill');
+            const curEl = document.getElementById('player-time-current');
+            const totEl = document.getElementById('player-time-total');
+
+            if (fillEl) fillEl.style.width = `${pct}%`;
+            if (curEl) curEl.textContent = formatSeconds(curSec);
+            if (totEl) totEl.textContent = formatSeconds(totalSec);
+
+            if (!isCustomVideoMode && lesson.chapters) {
+                let activeIdx = 0;
+                for (let i = 0; i < lesson.chapters.length; i++) {
+                    if (curSec >= lesson.chapters[i].time) {
+                        activeIdx = i;
+                    }
+                }
+
+                const ch = lesson.chapters[activeIdx];
+                const subTextEl = document.getElementById('video-subtitle-text');
+                const sceneBadgeEl = document.getElementById('scene-badge');
+
+                if (subTextEl && ch) {
+                    subTextEl.textContent = ch.subtitle;
+                }
+                if (sceneBadgeEl && ch) {
+                    sceneBadgeEl.innerHTML = `<span>🎬 ${ch.label}</span>`;
+                }
+
+                // Підсвічування активної кнопки таймкоду
+                document.querySelectorAll('.timecode-chip').forEach((btn, idx) => {
+                    if (idx === activeIdx) {
+                        btn.classList.add('bg-river-900', 'text-white', 'border-river-900');
+                        btn.classList.remove('bg-slate-100', 'text-slate-700', 'border-slate-300');
+                    } else {
+                        btn.classList.remove('bg-river-900', 'text-white', 'border-river-900');
+                        btn.classList.add('bg-slate-100', 'text-slate-700', 'border-slate-300');
+                    }
+                });
+
+                // Запуск озвучки та звукових ефектів при зміні епізоду
+                if (isPlayerPlaying && activeIdx !== lastSpokenChapterIdx && ch) {
+                    lastSpokenChapterIdx = activeIdx;
+                    if (ch.sfx) playFishingSfx(ch.sfx);
+                    speakInstructorLine(ch.voiceText, ch.voiceTextEn);
+                }
+            }
+        }
+
+        function playerAnimationLoop(timestamp) {
+            if (!isPlayerPlaying) return;
+
+            if (!lastFrameTimestamp) lastFrameTimestamp = timestamp;
+            const dt = ((timestamp - lastFrameTimestamp) / 1000) * playbackSpeed;
+            lastFrameTimestamp = timestamp;
+
+            const lesson = getActiveLesson();
+            if (!isCustomVideoMode) {
+                currentVideoTime += dt;
+                if (currentVideoTime >= lesson.durationSec) {
+                    currentVideoTime = lesson.durationSec;
+                    updatePlayerTimelineUI();
+                    drawLessonCanvasFrame(lesson, currentVideoTime);
+                    pauseLessonPlayer();
+                    return;
+                }
+                drawLessonCanvasFrame(lesson, currentVideoTime);
+            }
+
+            updatePlayerTimelineUI();
+            animFrameId = requestAnimationFrame(playerAnimationLoop);
+        }
+
+        function playLessonPlayer() {
+            initAudioEngine();
+            isPlayerPlaying = true;
+            lastFrameTimestamp = 0;
+
+            const playIcon = document.getElementById('ctrl-play-icon');
+            const centerOverlay = document.getElementById('center-play-overlay');
+            if (playIcon) {
+                playIcon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
+            }
+            if (centerOverlay) {
+                centerOverlay.classList.add('hidden');
+            }
+
+            if (isCustomVideoMode) {
+                const customVideo = document.getElementById('custom-html5-video');
+                if (customVideo) {
+                    customVideo.playbackRate = playbackSpeed;
+                    customVideo.play().catch(() => {});
+                }
+            } else {
+                startRiverAmbience();
+                const lesson = getActiveLesson();
+                if (currentVideoTime >= lesson.durationSec) {
+                    currentVideoTime = 0;
+                    lastSpokenChapterIdx = -1;
+                }
+            }
+
+            updatePlayerTimelineUI();
+            animFrameId = requestAnimationFrame(playerAnimationLoop);
+        }
+
+        function pauseLessonPlayer() {
+            isPlayerPlaying = false;
+            if (animFrameId) {
+                cancelAnimationFrame(animFrameId);
+                animFrameId = null;
+            }
+
+            const playIcon = document.getElementById('ctrl-play-icon');
+            const centerOverlay = document.getElementById('center-play-overlay');
+            if (playIcon) {
+                playIcon.innerHTML = '<path d="M8 5v14l11-7z"/>';
+            }
+            if (centerOverlay) {
+                centerOverlay.classList.remove('hidden');
+            }
+
+            stopRiverAmbience();
+            stopSpeech();
+
+            const customVideo = document.getElementById('custom-html5-video');
+            if (customVideo && !customVideo.paused) {
+                customVideo.pause();
+            }
+
+            const statusLabel = document.getElementById('audio-status-label');
+            if (statusLabel) statusLabel.textContent = "Пауза";
+        }
+
+        function seekLessonPlayer(targetSeconds) {
+            const lesson = getActiveLesson();
+            if (isCustomVideoMode) {
+                const customVideo = document.getElementById('custom-html5-video');
+                if (customVideo && customVideo.duration) {
+                    customVideo.currentTime = Math.max(0, Math.min(customVideo.duration, targetSeconds));
+                }
+            } else {
+                currentVideoTime = Math.max(0, Math.min(lesson.durationSec, targetSeconds));
+                lastSpokenChapterIdx = -1;
+                drawLessonCanvasFrame(lesson, currentVideoTime);
+            }
+            updatePlayerTimelineUI();
+        }
+
+        // ==========================================
+        // 9. РЕНДЕР КАТАЛОГУ УРОКІВ, МОДАЛЬНОГО ВІКНА, ВУЗЛІВ ТА ТЕСТУ
+        // ==========================================
+        function updateProgressUI() {
+            const total = lessonsData.length;
+            const done = completedLessons.length;
+            const pct = Math.round((done / total) * 100);
+
+            const headerText = document.getElementById('header-progress-text');
+            const headerBar = document.getElementById('header-progress-bar');
+            const heroPct = document.getElementById('hero-percent');
+
+            if (headerText) headerText.textContent = `${done}/${total}`;
+            if (headerBar) headerBar.style.width = `${pct}%`;
+            if (heroPct) heroPct.textContent = `${pct}% завершено`;
+        }
+
+        function renderLessons() {
+            const grid = document.getElementById('lessons-grid');
+            if (!grid) return;
+
+            const filtered = lessonsData.filter(lesson => {
+                const matchCat = activeCategory === 'all' || lesson.category === activeCategory;
+                const matchDiff = activeDifficulty === 'all' || lesson.difficulty === activeDifficulty;
+                return matchCat && matchDiff;
+            });
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `<div class="col-span-full text-center py-12 text-slate-500">За обраними фільтрами уроків не знайдено.</div>`;
+                return;
+            }
+
+            grid.innerHTML = filtered.map(lesson => {
+                const isDone = completedLessons.includes(lesson.id);
+                const diffBadgeColor = lesson.difficulty === 'Початківець'
+                    ? 'bg-emerald-100 text-emerald-800'
+                    : lesson.difficulty === 'Середній'
+                        ? 'bg-amber-100 text-amber-800'
+                        : 'bg-rose-100 text-rose-800';
+
+                return `
+                    <article class="bg-white rounded-3xl border ${isDone ? 'border-emerald-300 ring-2 ring-emerald-500/20' : 'border-slate-200'} shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col overflow-hidden group">
+                        <div class="relative bg-gradient-to-br from-river-900 via-river-800 to-forest-800 p-5 text-white h-40 flex flex-col justify-between">
+                            <div class="flex items-center justify-between gap-2">
+                                <span class="px-2.5 py-1 rounded-lg bg-white/15 backdrop-blur-sm text-xs font-semibold">${lesson.category}</span>
+                                <span class="px-2.5 py-1 rounded-lg ${diffBadgeColor} text-xs font-bold">${lesson.difficulty}</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs text-slate-300 font-mono">⏱ ${lesson.durationText} • 🔊 Звук</span>
+                                ${isDone ? '<span class="px-2.5 py-1 rounded-full bg-emerald-500 text-white text-xs font-bold">✓ Вивчено</span>' : ''}
+                            </div>
+                        </div>
+
+                        <div class="p-5 flex-1 flex flex-col justify-between space-y-4">
+                            <div>
+                                <h3 class="font-heading font-bold text-base sm:text-lg text-river-900 group-hover:text-river-700 transition-colors leading-snug">
+                                    ${lesson.title}
+                                </h3>
+                                <p class="text-xs sm:text-sm text-slate-600 mt-2 line-clamp-2 leading-relaxed">
+                                    ${lesson.description}
+                                </p>
+                            </div>
+
+                            <div class="pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
+                                <span class="text-xs text-slate-500">👨‍🏫 ${lesson.instructor}</span>
+                                <button onclick="openLessonModal(${lesson.id})" class="px-4 py-2 rounded-xl bg-river-900 hover:bg-sunset-500 hover:text-river-950 text-white text-xs font-bold transition shadow-sm">
+                                    ▶ Дивитись
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+                `;
+            }).join('');
+        }
+
+        function updateCompleteButtonUI() {
+            const btn = document.getElementById('toggle-complete-btn');
+            if (!btn || !currentModalLessonId) return;
+            const isDone = completedLessons.includes(currentModalLessonId);
+
+            if (isDone) {
+                btn.className = "w-full sm:w-auto px-6 py-3 rounded-xl font-bold text-sm transition flex items-center justify-center gap-2 shadow-md bg-emerald-600 hover:bg-emerald-700 text-white";
+                btn.innerHTML = "✓ Урок пройдено (Скасувати)";
+            } else {
+                btn.className = "w-full sm:w-auto px-6 py-3 rounded-xl font-bold text-sm transition flex items-center justify-center gap-2 shadow-md bg-sunset-500 hover:bg-sunset-400 text-river-950";
+                btn.innerHTML = "Позначити урок як вивчений ✓";
+            }
+        }
+
+        function openLessonModal(lessonId) {
+            const lesson = lessonsData.find(l => l.id === lessonId);
+            if (!lesson) return;
+
+            currentModalLessonId = lesson.id;
+            isCustomVideoMode = false;
+            currentVideoTime = 0;
+            lastSpokenChapterIdx = -1;
+
+            const canvas = document.getElementById('lesson-canvas');
+            const customVideo = document.getElementById('custom-html5-video');
+            if (canvas) canvas.classList.remove('hidden');
+            if (customVideo) {
+                customVideo.pause();
+                customVideo.classList.add('hidden');
+            }
+
+            document.getElementById('modal-category-badge').textContent = lesson.category;
+            document.getElementById('modal-duration').textContent = `⏱ ${lesson.durationText}`;
+            document.getElementById('modal-lesson-title').textContent = lesson.title;
+            document.getElementById('modal-lesson-desc').textContent = lesson.description;
+
+            const notesList = document.getElementById('modal-lesson-notes');
+            notesList.innerHTML = lesson.notes.map(n => `<li>${n}</li>`).join('');
+
+            const tcList = document.getElementById('modal-timecodes-list');
+            tcList.innerHTML = lesson.chapters.map((ch, idx) => `
+                <button type="button" onclick="seekLessonPlayer(${ch.time}); if(!isPlayerPlaying) playLessonPlayer();" class="timecode-chip px-3 py-1.5 rounded-xl text-xs font-semibold border transition ${idx === 0 ? 'bg-river-900 text-white border-river-900' : 'bg-slate-100 text-slate-700 border-slate-300 hover:bg-river-100'}">
+                    ${ch.label}
+                </button>
+            `).join('');
+
+            // Маркери на шкалі часу
+            const markersContainer = document.getElementById('timeline-markers');
+            markersContainer.innerHTML = lesson.chapters.map(ch => {
+                const leftPct = (ch.time / lesson.durationSec) * 100;
+                return `<span class="absolute top-0 bottom-0 w-0.5 bg-white/70" style="left: ${leftPct}%"></span>`;
+            }).join('');
+
+            updateCompleteButtonUI();
+
+            const modal = document.getElementById('lesson-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+
+            pauseLessonPlayer();
+            drawLessonCanvasFrame(lesson, 0);
+            updatePlayerTimelineUI();
+        }
+
+        function closeLessonModal() {
+            pauseLessonPlayer();
+            const modal = document.getElementById('lesson-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        // Рендер довідника вузлів
+        function renderKnotSelector() {
+            const container = document.getElementById('knot-selector');
+            if (!container) return;
+            container.innerHTML = knotsData.map((knot, idx) => `
+                <button type="button" onclick="selectKnot(${idx})" class="px-5 py-2.5 rounded-xl text-sm font-bold transition ${idx === currentKnotIndex ? 'bg-sunset-500 text-river-950 shadow-lg' : 'bg-river-800 text-slate-200 hover:bg-river-700 border border-river-700'}">
+                    ${knot.name}
+                </button>
+            `).join('');
+        }
+
+        function selectKnot(idx) {
+            currentKnotIndex = idx;
+            currentKnotStep = 0;
+            renderKnotSelector();
+            renderKnotDisplay();
+        }
+
+        function renderKnotDisplay() {
+            const knot = knotsData[currentKnotIndex];
+            const step = knot.steps[currentKnotStep];
+
+            document.getElementById('knot-title').textContent = knot.name;
+            document.getElementById('knot-purpose-tag').textContent = knot.purpose;
+            document.getElementById('knot-strength-badge').textContent = knot.strength;
+            document.getElementById('knot-step-counter').textContent = `Крок ${currentKnotStep + 1} з ${knot.steps.length}`;
+            document.getElementById('knot-step-text').textContent = step.text;
+            document.getElementById('knot-svg-container').innerHTML = step.svg;
+
+            const dotsEl = document.getElementById('knot-dots');
+            dotsEl.innerHTML = knot.steps.map((_, i) => `
+                <span class="h-2 rounded-full transition-all ${i === currentKnotStep ? 'w-8 bg-sunset-400' : 'w-2 bg-river-600'}"></span>
+            `).join('');
+
+            document.getElementById('knot-prev-step').disabled = currentKnotStep === 0;
+            const nextBtn = document.getElementById('knot-next-step');
+            nextBtn.textContent = currentKnotStep === knot.steps.length - 1 ? 'Спочатку ↺' : 'Наступний крок →';
+        }
+
+        // Рендер інтерактивного тесту
+        function renderQuizQuestion() {
+            const q = quizQuestions[currentQuizIndex];
+            quizAnswered = false;
+
+            document.getElementById('quiz-question-num').textContent = `Питання ${currentQuizIndex + 1} з ${quizQuestions.length}`;
+            document.getElementById('quiz-score-live').textContent = `Бали: ${quizScore}`;
+            document.getElementById('quiz-progress-bar').style.width = `${((currentQuizIndex + 1) / quizQuestions.length) * 100}%`;
+            document.getElementById('quiz-question-text').textContent = q.question;
+
+            const feedbackEl = document.getElementById('quiz-feedback');
+            feedbackEl.classList.add('hidden');
+            document.getElementById('quiz-next-btn').classList.add('hidden');
+
+            const optionsEl = document.getElementById('quiz-options');
+            optionsEl.innerHTML = q.options.map((opt, idx) => `
+                <button type="button" onclick="handleQuizAnswer(${idx})" class="quiz-opt-btn w-full text-left p-4 rounded-2xl border border-slate-200 hover:border-river-700 hover:bg-river-100/50 text-sm sm:text-base font-medium text-slate-800 transition">
+                    <span class="inline-block w-7 h-7 rounded-lg bg-slate-100 text-river-900 font-bold text-center leading-7 mr-3">${['А', 'Б', 'В'][idx]}</span>
+                    ${opt}
+                </button>
+            `).join('');
+        }
+
+        function handleQuizAnswer(selectedIdx) {
+            if (quizAnswered) return;
+            quizAnswered = true;
+
+            const q = quizQuestions[currentQuizIndex];
+            const buttons = document.querySelectorAll('.quiz-opt-btn');
+            const feedbackEl = document.getElementById('quiz-feedback');
+
+            buttons.forEach((btn, idx) => {
+                btn.disabled = true;
+                if (idx === q.correct) {
+                    btn.classList.add('bg-emerald-50', 'border-emerald-500', 'text-emerald-900');
+                } else if (idx === selectedIdx) {
+                    btn.classList.add('bg-rose-50', 'border-rose-500', 'text-rose-900');
+                }
+            });
+
+            if (selectedIdx === q.correct) {
+                quizScore++;
+                document.getElementById('quiz-score-live').textContent = `Бали: ${quizScore}`;
+                feedbackEl.className = "mt-6 p-4 rounded-2xl border border-emerald-200 bg-emerald-50 text-emerald-900 text-sm leading-relaxed";
+                feedbackEl.innerHTML = `<strong>✓ Правильно!</strong> ${q.explanation}`;
+            } else {
+                feedbackEl.className = "mt-6 p-4 rounded-2xl border border-amber-200 bg-amber-50 text-amber-900 text-sm leading-relaxed";
+                feedbackEl.innerHTML = `<strong>💡 Пояснення:</strong> ${q.explanation}`;
+            }
+
+            feedbackEl.classList.remove('hidden');
+            const nextBtn = document.getElementById('quiz-next-btn');
+            nextBtn.textContent = currentQuizIndex === quizQuestions.length - 1 ? 'Завершити тест 🏆' : 'Наступне питання →';
+            nextBtn.classList.remove('hidden');
+        }
+
+        // ==========================================
+        // 10. ІНІЦІАЛІЗАЦІЯ ПОДІЙ ПІСЛЯ ЗАВАНТАЖЕННЯ DOM
+        // ==========================================
+        document.addEventListener('DOMContentLoaded', () => {
+            // Мобільне меню
+            const mobileBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (mobileBtn && mobileMenu) {
+                mobileBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+            }
+
+            // Фільтр категорій
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.cat-btn').forEach(b => {
+                        b.classList.remove('active', 'bg-river-900', 'text-white', 'shadow-md');
+                        b.classList.add('bg-white', 'text-slate-700', 'border', 'border-slate-200');
+                    });
+                    btn.classList.add('active', 'bg-river-900', 'text-white', 'shadow-md');
+                    btn.classList.remove('bg-white', 'text-slate-700', 'border', 'border-slate-200');
+                    activeCategory = btn.dataset.category;
+                    renderLessons();
+                });
+            });
+
+            // Фільтр складності
+            const diffFilter = document.getElementById('difficulty-filter');
+            if (diffFilter) {
+                diffFilter.addEventListener('change', (e) => {
+                    activeDifficulty = e.target.value;
+                    renderLessons();
+                });
+            }
+
+            // Керування модальним вікном
+            document.getElementById('close-modal-btn')?.addEventListener('click', closeLessonModal);
+            document.getElementById('lesson-modal')?.addEventListener('click', (e) => {
+                if (e.target.id === 'lesson-modal') closeLessonModal();
+            });
+
+            // Кнопка завершення уроку
+            document.getElementById('toggle-complete-btn')?.addEventListener('click', () => {
+                if (!currentModalLessonId) return;
+                if (completedLessons.includes(currentModalLessonId)) {
+                    completedLessons = completedLessons.filter(id => id !== currentModalLessonId);
+                } else {
+                    completedLessons.push(currentModalLessonId);
+                }
+                localStorage.setItem('fishingAcademyCompleted', JSON.stringify(completedLessons));
+                updateProgressUI();
+                updateCompleteButtonUI();
+                renderLessons();
+            });
+
+            // Керування плеєром
+            document.getElementById('center-play-overlay')?.addEventListener('click', playLessonPlayer);
+            document.getElementById('ctrl-play-btn')?.addEventListener('click', () => {
+                if (isPlayerPlaying) pauseLessonPlayer();
+                else playLessonPlayer();
+            });
+
+            document.getElementById('player-timeline')?.addEventListener('click', (e) => {
+                const rect = e.currentTarget.getBoundingClientRect();
+                const ratio = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+                const lesson = getActiveLesson();
+                const customVideo = document.getElementById('custom-html5-video');
+                const total = (isCustomVideoMode && customVideo && customVideo.duration) ? customVideo.duration : lesson.durationSec;
+                seekLessonPlayer(ratio * total);
+            });
+
+            document.getElementById('ctrl-mute-btn')?.addEventListener('click', () => {
+                isMuted = !isMuted;
+                if (isMuted) stopSpeech();
+                updateAudioGains();
+            });
+
+            document.getElementById('ctrl-volume-slider')?.addEventListener('input', (e) => {
+                masterVolume = Number(e.target.value) / 100;
+                isMuted = masterVolume === 0;
+                const valLabel = document.getElementById('ctrl-volume-val');
+                if (valLabel) valLabel.textContent = `${e.target.value}%`;
+                updateAudioGains();
+            });
+
+            document.getElementById('voice-volume-slider')?.addEventListener('input', (e) => {
+                voiceVolume = Number(e.target.value) / 100;
+                updateAudioGains();
+            });
+
+            document.getElementById('sfx-volume-slider')?.addEventListener('input', (e) => {
+                sfxVolume = Number(e.target.value) / 100;
+                updateAudioGains();
+            });
+
+            document.getElementById('ctrl-voice-toggle')?.addEventListener('click', (e) => {
+                isVoiceEnabled = !isVoiceEnabled;
+                e.currentTarget.innerHTML = isVoiceEnabled ? '<span>🎙 Диктор: УВІМК</span>' : '<span>🔇 Диктор: ВИМК</span>';
+                if (!isVoiceEnabled) stopSpeech();
+            });
+
+            document.getElementById('ctrl-cc-btn')?.addEventListener('click', (e) => {
+                isSubtitlesEnabled = !isSubtitlesEnabled;
+                const subBox = document.getElementById('video-subtitles-box');
+                if (subBox) subBox.style.opacity = isSubtitlesEnabled ? '1' : '0';
+                e.currentTarget.classList.toggle('opacity-50', !isSubtitlesEnabled);
+            });
+
+            document.getElementById('ctrl-speed-select')?.addEventListener('change', (e) => {
+                playbackSpeed = Number(e.target.value);
+                const customVideo = document.getElementById('custom-html5-video');
+                if (customVideo) customVideo.playbackRate = playbackSpeed;
+            });
+
+            document.getElementById('ctrl-fullscreen-btn')?.addEventListener('click', () => {
+                const wrapper = document.getElementById('video-player-wrapper');
+                if (!document.fullscreenElement && wrapper?.requestFullscreen) {
+                    wrapper.requestFullscreen().catch(() => {});
+                } else if (document.exitFullscreen) {
+                    document.exitFullscreen().catch(() => {});
+                }
+            });
+
+            // Тест голосу та звуку клювання
+            document.getElementById('test-voice-btn')?.addEventListener('click', () => {
+                speakInstructorLine(
+                    "Перевірка зв'язку! Вітаю в Академії Рибалки, готуємо снасті до закидання.",
+                    "Audio check! Welcome to the Fishing Academy, let us prepare the tackle."
+                );
+            });
+
+            document.getElementById('test-sfx-btn')?.addEventListener('click', () => {
+                playFishingSfx('bite');
+            });
+
+            // Завантаження власного відеофайлу
+            document.getElementById('custom-video-input')?.addEventListener('change', (e) => {
+                const file = e.target.files?.[0];
+                if (!file) return;
+                pauseLessonPlayer();
+                isCustomVideoMode = true;
+                const url = URL.createObjectURL(file);
+                const customVideo = document.getElementById('custom-html5-video');
+                const canvas = document.getElementById('lesson-canvas');
+                if (canvas) canvas.classList.add('hidden');
+                if (customVideo) {
+                    customVideo.src = url;
+                    customVideo.classList.remove('hidden');
+                    customVideo.onloadedmetadata = () => updatePlayerTimelineUI();
+                    customVideo.onended = () => pauseLessonPlayer();
+                }
+                playLessonPlayer();
+            });
+
+            document.getElementById('mode-interactive-btn')?.addEventListener('click', () => {
+                if (!isCustomVideoMode) return;
+                pauseLessonPlayer();
+                isCustomVideoMode = false;
+                const customVideo = document.getElementById('custom-html5-video');
+                const canvas = document.getElementById('lesson-canvas');
+                if (customVideo) customVideo.classList.add('hidden');
+                if (canvas) canvas.classList.remove('hidden');
+                drawLessonCanvasFrame(getActiveLesson(), currentVideoTime);
+                updatePlayerTimelineUI();
+            });
+
+            // Навігація кроків вузлів
+            document.getElementById('knot-prev-step')?.addEventListener('click', () => {
+                if (currentKnotStep > 0) {
+                    currentKnotStep--;
+                    renderKnotDisplay();
+                }
+            });
+
+            document.getElementById('knot-next-step')?.addEventListener('click', () => {
+                const knot = knotsData[currentKnotIndex];
+                currentKnotStep = (currentKnotStep + 1) % knot.steps.length;
+                renderKnotDisplay();
+            });
+
+            // Навігація тесту
+            document.getElementById('quiz-next-btn')?.addEventListener('click', () => {
+                if (currentQuizIndex < quizQuestions.length - 1) {
+                    currentQuizIndex++;
+                    renderQuizQuestion();
+                } else {
+                    document.getElementById('quiz-body').classList.add('hidden');
+                    const resEl = document.getElementById('quiz-result');
+                    resEl.classList.remove('hidden');
+                    document.getElementById('quiz-result-title').textContent = `Ваш результат: ${quizScore} з ${quizQuestions.length}`;
+                    document.getElementById('quiz-result-subtitle').textContent = quizScore >= 4
+                        ? "Відмінно! Ви чудово розбираєтесь у техніці лову та рибальських оснастках."
+                        : "Гарна спроба! Перегляньте онлайн-уроки вище та спробуйте покращити результат.";
+                }
+            });
+
+            document.getElementById('quiz-restart-btn')?.addEventListener('click', () => {
+                currentQuizIndex = 0;
+                quizScore = 0;
+                document.getElementById('quiz-result').classList.add('hidden');
+                document.getElementById('quiz-body').classList.remove('hidden');
+                renderQuizQuestion();
+            });
+
+            // ==========================================
+            // 11. ТРЕНАЖЕР ПІДСІЧКИ ТА ВИВАЖУВАННЯ
+            // ==========================================
+            let simState = 'idle'; // idle | waiting | biting | reeling
+            let simWaitTimer = null;
+            let simBiteTimeout = null;
+            let simLoopTimer = null;
+            let simBiteStartTime = 0;
+            let simDistance = 25;
+            let simTension = 35;
+            let simCaught = Number(localStorage.getItem('fishingSimCaught') || 0);
+            const simTrophies = ['Карась золотий (0.9 кг)', 'Лящ річковий (1.8 кг)', 'Судак ікластий (2.4 кг)', 'Короп дзеркальний (3.5 кг)', 'Щука-трав’янка (2.1 кг)'];
+
+            const simActionBtn = document.getElementById('sim-action-btn');
+            const simStatusBadge = document.getElementById('sim-status-badge');
+            const simFloat = document.getElementById('sim-float');
+            const simRipple = document.getElementById('sim-ripple');
+            const simTensionBar = document.getElementById('sim-tension-bar');
+            const simTensionLabel = document.getElementById('sim-tension-label');
+            const simDistanceText = document.getElementById('sim-distance-text');
+            const simReactionText = document.getElementById('sim-reaction-text');
+            const simFishName = document.getElementById('sim-fish-name');
+            const simCaughtCount = document.getElementById('sim-caught-count');
+
+            if (simCaughtCount) simCaughtCount.textContent = simCaught;
+
+            function resetSimulatorUI(msg, badgeClass) {
+                clearTimeout(simWaitTimer);
+                clearTimeout(simBiteTimeout);
+                clearInterval(simLoopTimer);
+                simState = 'idle';
+                simTension = 0;
+                if (simTensionBar) simTensionBar.style.width = '0%';
+                if (simTensionLabel) simTensionLabel.textContent = '0%';
+                if (simFloat) simFloat.style.transform = 'translateY(0) rotate(0deg)';
+                if (simRipple) simRipple.style.transform = 'scale(1)';
+                if (simStatusBadge) {
+                    simStatusBadge.textContent = msg;
+                    simStatusBadge.className = `px-3 py-1 rounded-full text-xs font-semibold ${badgeClass}`;
+                }
+                if (simActionBtn) {
+                    simActionBtn.textContent = '🎣 Закинути снасть';
+                    simActionBtn.className = 'w-full sm:w-auto px-8 py-4 rounded-2xl bg-sunset-500 hover:bg-sunset-400 active:scale-95 text-river-950 font-heading font-extrabold text-base shadow-lg shadow-sunset-500/25 transition select-none';
+                }
+            }
+
+            function startSimulatorReeling() {
+                simState = 'reeling';
+                simDistance = 24;
+                simTension = 45;
+                const fish = simTrophies[Math.floor(Math.random() * simTrophies.length)];
+                if (simFishName) simFishName.textContent = `На гачку: ${fish}`;
+                if (simStatusBadge) {
+                    simStatusBadge.textContent = '🔥 Виважування! Натискайте «Підмотати»';
+                    simStatusBadge.className = 'px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-semibold';
+                }
+                if (simActionBtn) {
+                    simActionBtn.textContent = '🔄 Підмотати котушку!';
+                    simActionBtn.className = 'w-full sm:w-auto px-8 py-4 rounded-2xl bg-emerald-500 hover:bg-emerald-400 active:scale-95 text-river-950 font-heading font-extrabold text-base shadow-lg transition select-none';
+                }
+
+                simLoopTimer = setInterval(() => {
+                    if (simState !== 'reeling') return;
+                    // Риба тягне вглиб, натяг спадає або риба робить ривок
+                    const fishPull = Math.random() > 0.82 ? 14 : -3.5;
+                    simTension = Math.max(0, Math.min(100, simTension + fishPull));
+                    simDistance = Math.min(35, simDistance + 0.35);
+
+                    if (simTensionBar) {
+                        simTensionBar.style.width = `${Math.round(simTension)}%`;
+                        simTensionBar.className = `h-full rounded-full transition-all duration-75 ${simTension > 80 ? 'bg-rose-500' : simTension < 20 ? 'bg-amber-400' : 'bg-emerald-400'}`;
+                    }
+                    if (simTensionLabel) simTensionLabel.textContent = `${Math.round(simTension)}%`;
+                    if (simDistanceText) simDistanceText.textContent = `${simDistance.toFixed(1)} м`;
+
+                    if (simTension >= 100) {
+                        playFishingSfx('splash');
+                        resetSimulatorUI('💥 Обрив волосіні! Занадто сильний натяг', 'bg-rose-500/20 text-rose-300');
+                    } else if (simTension <= 5) {
+                        resetSimulatorUI('🐟 Схід риби! Слабкий натяг жилки', 'bg-amber-500/20 text-amber-300');
+                    }
+                }, 120);
+            }
+
+            simActionBtn?.addEventListener('click', () => {
+                initAudioEngine();
+                if (simState === 'idle') {
+                    simState = 'waiting';
+                    simDistance = 25;
+                    if (simDistanceText) simDistanceText.textContent = '25 м';
+                    if (simReactionText) simReactionText.textContent = '';
+                    if (simFishName) simFishName.textContent = '';
+                    playFishingSfx('cast');
+
+                    simStatusBadge.textContent = '⏳ Чекаємо на клювання...';
+                    simStatusBadge.className = 'px-3 py-1 rounded-full bg-sky-500/20 text-sky-300 text-xs font-semibold';
+                    simActionBtn.textContent = '👀 Стежимо за поплавком...';
+
+                    const delay = 1800 + Math.random() * 2500;
+                    simWaitTimer = setTimeout(() => {
+                        simState = 'biting';
+                        simBiteStartTime = performance.now();
+                        playFishingSfx('bite');
+                        if (simFloat) simFloat.style.transform = 'translateY(14px) rotate(38deg)';
+                        if (simRipple) simRipple.style.transform = 'scale(2.1)';
+                        simStatusBadge.textContent = '⚡ КЛЮЄ! ПІДСІКАЙ!';
+                        simStatusBadge.className = 'px-3 py-1 rounded-full bg-rose-500 text-white text-xs font-bold animate-bounce';
+                        simActionBtn.textContent = '⚡ ПІДСІКТИ ЗАРАЗ!';
+                        simActionBtn.className = 'w-full sm:w-auto px-8 py-4 rounded-2xl bg-rose-500 hover:bg-rose-400 active:scale-95 text-white font-heading font-extrabold text-base shadow-lg transition select-none';
+
+                        simBiteTimeout = setTimeout(() => {
+                            if (simState === 'biting') {
+                                resetSimulatorUI('🐢 Запізно! Риба виплюнула насадку', 'bg-amber-500/20 text-amber-300');
+                            }
+                        }, 1450);
+                    }, delay);
+                } else if (simState === 'waiting') {
+                    resetSimulatorUI('❌ Фальстарт! Ви підсікли до клювання', 'bg-amber-500/20 text-amber-300');
+                } else if (simState === 'biting') {
+                    clearTimeout(simBiteTimeout);
+                    const reactionMs = Math.round(performance.now() - simBiteStartTime);
+                    if (simReactionText) simReactionText.textContent = `Реакція: ${reactionMs} мс`;
+                    playFishingSfx('drag');
+                    startSimulatorReeling();
+                } else if (simState === 'reeling') {
+                    simTension = Math.min(100, simTension + 13);
+                    simDistance = Math.max(0, simDistance - 2.6);
+                    if (simDistanceText) simDistanceText.textContent = `${simDistance.toFixed(1)} м`;
+
+                    if (simDistance <= 0) {
+                        simCaught++;
+                        localStorage.setItem('fishingSimCaught', String(simCaught));
+                        if (simCaughtCount) simCaughtCount.textContent = simCaught;
+                        playFishingSfx('splash');
+                        resetSimulatorUI('🏆 Трофей у підсаку! Вітаємо!', 'bg-emerald-500/20 text-emerald-300');
+                    }
+                }
+            });
+
+            // ==========================================
+            // 12. ЧЕК-ЛИСТ ЗБОРІВ НА РИБОЛОВЛЮ
+            // ==========================================
+            const gearLists = {
+                spinning: [
+                    'Спінінгове вудилище та котушка зі шнуром',
+                    'Коробка з силіконом, воблерами та блешнями',
+                    'Флюорокарбонові та титанові повідці',
+                    'Екстрактор / рибальські плоскогубці та зівник',
+                    'Підсак із прогумованою сіткою',
+                    'Поляризаційні окуляри та дощовик'
+                ],
+                feeder: [
+                    'Фідерне вудилище з набором квівертипів',
+                    'Котушка з кліпсою та шок-лідером',
+                    'Набір годівниць (40–90 г) та поводочниця',
+                    'Прикормка, сито та ємність для замішування',
+                    'Живий компонент (опариш, мотиль, черв’як)',
+                    'Стійка під вудилище та садок'
+                ],
+                float: [
+                    'Махова або болонська поплавкова вудка',
+                    'Набір огружених поплавків (1–4 г)',
+                    'Коробка з дробинками та запасні повідці',
+                    'Глибомір для точного проміру дна',
+                    'Насадки (перловка, кукурудза, опариш)',
+                    'Складаний стілець та рушник для рук'
+                ]
+            };
+
+            let activeGearType = 'spinning';
+            let checkedGear = JSON.parse(localStorage.getItem('fishingCheckedGear') || '{}');
+
+            function renderChecklist() {
+                const items = gearLists[activeGearType] || [];
+                const container = document.getElementById('checklist-items');
+                const counter = document.getElementById('checklist-counter');
+                if (!container) return;
+
+                let doneCount = 0;
+                container.innerHTML = items.map((item, idx) => {
+                    const key = `${activeGearType}_${idx}`;
+                    const isChecked = !!checkedGear[key];
+                    if (isChecked) doneCount++;
+                    return `
+                        <label class="flex items-center gap-3 p-3.5 rounded-2xl border ${isChecked ? 'bg-emerald-50/70 border-emerald-300 text-emerald-950' : 'bg-slate-50 border-slate-200 text-slate-800'} cursor-pointer hover:border-river-700 transition select-none">
+                            <input type="checkbox" data-gear-key="${key}" ${isChecked ? 'checked' : ''} class="w-5 h-5 rounded accent-forest-600 cursor-pointer">
+                            <span class="text-xs sm:text-sm font-medium ${isChecked ? 'line-through opacity-75' : ''}">${item}</span>
+                        </label>
+                    `;
+                }).join('');
+
+                if (counter) counter.textContent = `Зібрано: ${doneCount}/${items.length}`;
+
+                container.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+                    cb.addEventListener('change', (e) => {
+                        const k = e.target.dataset.gearKey;
+                        checkedGear[k] = e.target.checked;
+                        localStorage.setItem('fishingCheckedGear', JSON.stringify(checkedGear));
+                        renderChecklist();
+                    });
+                });
+            }
+
+            document.querySelectorAll('.gear-tab-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.gear-tab-btn').forEach(b => {
+                        b.className = 'gear-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-slate-100 text-slate-700 hover:bg-river-100 transition';
+                    });
+                    btn.className = 'gear-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-river-900 text-white transition';
+                    activeGearType = btn.dataset.gear;
+                    renderChecklist();
+                });
+            });
+
+            document.getElementById('checklist-reset-btn')?.addEventListener('click', () => {
+                const items = gearLists[activeGearType] || [];
+                items.forEach((_, idx) => delete checkedGear[`${activeGearType}_${idx}`]);
+                localStorage.setItem('fishingCheckedGear', JSON.stringify(checkedGear));
+                renderChecklist();
+            });
+
+            // Початковий рендер усіх модулів
+            updateProgressUI();
+            renderLessons();
+            renderKnotSelector();
+            renderKnotDisplay();
+            renderQuizQuestion();
+            renderChecklist();
+
+            // Глобальне розблокування звуку при першому натисканні будь-де на сторінці
+            const unlockOnce = () => {
+                initAudioEngine();
+                document.removeEventListener('pointerdown', unlockOnce);
+                document.removeEventListener('keydown', unlockOnce);
+            };
+            document.addEventListener('pointerdown', unlockOnce);
+            document.addEventListener('keydown', unlockOnce);
+        });
+    </script>
+</body>
+</html>
